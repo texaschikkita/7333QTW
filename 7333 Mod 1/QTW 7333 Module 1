@@ -1,0 +1,531 @@
+QTW 7333 Module 1 
+
+
+
+
+ Hi. Welcome to quantifying the world. This will be the video for our first series in which we will introduce Python for data science. Python has become the leading programming language for data science, and so it's important to understand how to manipulate your environment and become comfortable within this system.
+
+Python has gone through some major changes in the past, and we're currently on version 3.8. So you will find that because Python has quite a history, there are some older software libraries that may not be compatible. So it's important to make sure that you've got your most current version. Currently, most versions of 3.X
+
+will be compatible with all the things we're doing. And, of course, the more recent, the better. So Python has become one of the most popular data science programming languages. And some of the key packages we're going to need to know about are additions to the base programming language.
+
+Those packages include NumPy, which allows us to manipulate large sets of data, especially arrays, SciPy, which allows many of our math and science functions to be imported into Python. One of the biggest that we're going to spend a lot of time with is known as Pandas, and that gives us the ability to create DataFrames, clean our data, manipulate our data, and put everything together so that we can start to prepare our data science models. Scikit-Learn is going to be our heavy-lifting package for most of this course. Almost all of the software that we're going to be using to model our data and solve our different problems will eventually touch on Scikit-Learn.
+
+So this is one that you're going to have to become extremely familiar with, and it's always important to keep this up-to-date. In fact, one of the things I'm going to recommend is that you actually bookmark the Scikit-Learn website because we're going to be using it frequently as a reference, and it's almost impossible to know all the features that are within it. Finally, as we get to neural networks, Python has become the de facto standard language of neural networks. So there's two primary packages that are used in that they are PyTorch and TensorFlow.
+
+And we'll touch on those towards the end of the course, but it's important to be aware that these are the packages that allow you to do these advanced methods. Python is used for more than just data science, and that's important to understand because many people, if they're trying to work with different versions, can sometimes inadvertently cause some serious issues. So be aware that especially on non-Windows machines--
+
+Macintosh, Unix, Linux--
+
+Python is part of the system, which means that if you uninstall Python, you can accidentally uninstall your operating system. This is what we might call a very bad thing. So be aware that you never want to uninstall Python. Now, this may be confusing because we want to keep up-to-date with different packages, different updates.
+
+So the question becomes, how do I manage these different versions? And we're going to cover that in a couple of slides. But it's important to take advantage of the many features of Python and allow for upgrades so that we don't accidentally have to uninstall Python and possibly cause serious harm to our machine. The other nice thing about Python is it's more than just data science.
+
+And because it supports the operating system for many computers, it's pretty obvious that Python goes beyond just data science. So it does all sorts of things--
+
+from APIs, system calls, internet. Everything that you can imagine, Python does. It's a very general-purpose language. In fact, it's one of the top five programming languages in use today.
+
+It's really come on strong within the last 10 years. And one of the key features, as I just mentioned, is these virtual environments. What these virtual environments are going to allow us to do is to tailor our setup for our specific problem, and it actually will allow us to have multiple different versions of multiple packages and allow for us to switch between them. So if one professor says, I prefer X package in a certain version, and another professor says, well, I prefer this version of the package, you can actually accommodate them both by using a virtual environment.
+
+And it allows you to run it on a system that's isolated from each so that whatever package or whatever project you're working on is specifically tailored to that project. Now, I've included some Python resources here, and these are important to keep within your bookmarks or be aware of of where you can get the different packages. The current version of Python, and that's in late 2020, is actually version 3.8. So if you do encounter something that's a Python 2.X--
+
+2.7, 2.6--
+
+that is end-of-life. That has been deprecated. In other words, it's been discontinued. There are no more security updates.
+
+It's insecure. So do not use older versions of Python that start with a 2. Pandas is now past version 1 and is at 1.1.2. NumPy and SciPy, those are fairly stable packages, but it's important to know where to get them.
+
+And Scikit-Learn, our bread and butter, is on version 24 currently. And so I've concluded links to all these packages so that you can obtain them or, more importantly, look at the documentation. For installing, there are some different methods of installing. Well, you won't have to know the website, but the important thing about the website is they are resources for how to handle the different functions and classes within each package.
+
+This concludes our initial video on Python for data science.
+
+
+Welcome to this video in which we're going to review some of the basics of Python that will be important for our Quantifying the World class. One of the biggest things that is difficult for people that are new to Python is both the counting and intervals. People who are not from traditional computer science backgrounds are sometimes confused in that counting in Python starts from 0. You may dispute that counting is important.
+
+But the key thing is when you're looking for things in a list, that list is indexed, or your data frame will be indexed. The first item in any list actually is item zero, and not item one. So this takes a little bit of getting used to if you're not traditionally in the computer science field. So if we're looking at these different items in the example here, you can see that if I've got a list of just the first three letters of the alphabet, the letter A is actually item 0.
+
+And you can see that we index things by using the square brackets. So as we go through in both lists and data frames, we'll be seeing these square brackets quite frequently. And that's used for us to actually index items. And, of course, if you want the length of something, when we count the length, it's the actual number of items.
+
+So even though this list goes--
+
+has indexes from 0, 1, and 2, the actual length of the list, it has three items in it. This can seem counterintuitive at first, but once you get used to it, it starts to make a great deal of sense. The next thing that's important and is unique to Python is that when you do intervals in Python, intervals are what are called closed on the left or inclusive of the number on the left and open on the right. Now, this example, when we're using the range function is just going to produce a list of numbers.
+
+Now, this is a function and not an index. So we see the rounded brackets. So when I type in range 0 to 5, what I'm asking for is start with a list that goes from 0 to 5. However, we see this interval being open on the right.
+
+And so the 5 is actually not included. Don't be confused in that I wanted a list with starting at 0 and a length of 5. That's not what this is doing. This is saying, I want to go from 0 to 5.
+
+And, of course, the 5 will be left off. You can see this example for the middle of the page where we have range 5 to 7. That does not mean start at 5 and include seven elements. It means start at 5 and end at 7.
+
+But, of course, in Python, that last number is open or not included. So if I wanted to go from the previous slide--
+
+and we saw that I had that test list of A, B, and C--
+
+if I go from element 0 to element 2, I'm going to return elements 0 and 1, and not element 2, which would be the third element. This is one of the things that causes the most confusion for people who are new to Python, and it does take a little bit of getting used to. And even I found it a little uncomfortable and even maybe a little bit crazy at first. Another unique thing for Python--
+
+and one that I greatly appreciate--
+
+is that rather than brackets or intermittent spacing, Python depends very much on formatting. So if you're creating a code block or a loop, the part of the loop is actually denoted by your indentation. The key item is the indentation is not fixed. It can be two spaces, four spaces, five spaces, or even a tab.
+
+But the idea is in Python, for readability, whitespace is actually important and denotes different parts of the loop. So here you can see we start a for loop. We do some simple arithmetic where we're just printing a value and then printing the square. And then we have an if statement where we space the statement in, and what goes under that if statement is just our print.
+
+So the key here is this would actually fail because you notice the if statement is off by one space. So if we actually ran this code, this code would fail and return us an error. So when doing Python, it's very important to actually keep your spacing correct. This can be confusing for people who are used to using different brackets or unformatted, such as R, where you can have your statements anywhere.
+
+In Python, the space and indents are actually quite important and help produce readable code so that you can quickly scan through and understand what's going on. One of the quick ways to actually do things fast--
+
+and when we say fast, computer-wise fast--
+
+is we find ourselves writing many, many for loops. We have lists of data, data frames, and we want to iterate through elements in either columns or rows or even both. So what we'll do is we'll try and create an empty list that we're just going to call stuff. And I've highlighted here and colors how to compactly write this.
+
+And it turns out that the bottom one line and even though it's more compact actually runs quite quickly compared to the original for loop due to optimization. This is one of the things that Python has done to help improve its performance. So what you do is you go through a list. So here I have presumably a list known as list item.
+
+And it will take each item in that list. And we're going to compare it. And we'll find that if that item is actually greater than 5, we'll append it to that list. And so in the end, we're going to have a list with all the items from list item that are greater than 5.
+
+Now these two pieces of code do the actual same thing. But you'll see the bottom one is color-coded so that the append statement does not appear in the bottom one, but what you're appending is in green. And then your for statement is in red, and your if condition is in orange. And you can see rather than writing on four lines, we can write this as a single line.
+
+This is important because many of the people who write our code will use these lists comprehensions. And so it's important to get them in your mind of how they work. So feel free to use this as a reference for when you're struggling with this comprehensions. Again, it's not required, but it's important for you to be aware that this is how other people write code.
+
+So when you're looking at something like this, keep this in mind to help you unpack how these lists comprehensions work. And as just a side note, you can actually do what's called a dictionary comprehension, which is the same thing as a list here except instead of using the square braces, which we previously mentioned we're used for indexing, lists go in square braces. Dictionaries go in curly braces. So you can create a dictionary based on conditions doing the same thing.
+
+Except now instead of the square braces, you just replace with curly braces. And instead of a list, you'll have a dictionary. One of the important things I've mentioned in the previous video is virtual environments. Now, virtual environments are part of a package called venv, or you can use Anaconda.
+
+Both of these are equivalent, but they allow you to have basically separate environments with different packages. And these environments can be activated and deactivated, meaning they can be turned on and off. So as an example, let's say you're taking the machine learning course, and the machine learning course was perhaps built a few years ago. And they may be using TensorFlow 1.x.
+
+And, now, you come to one of my classes, and I'm using TensorFlow 2.1. Now, these two versions are very incompatible with each other. And so, unfortunately, you have to have two different versions of TensorFlow installed. Normally, you'd have to either pick one or go back and forth.
+
+Here virtual environments allow you to create a space where one environment has one version of TensorFlow, and another environment has a different version of TensorFlow. And, of course, this works for packages beyond TensorFlow. It could be scikit-learn. It could even be something as obscure as or obscure different as HTTP requests.
+
+So perhaps you're working with different environments. Maybe you'd like to try a new package, something that's experimental. You can use a virtual environment to test it out without damaging your current system. So to activate these environments, it's actually quite simple.
+
+Under Anaconda, which is a popular packaging messaging system, we just type qanda space activate and then the environment name. Now, if you're doing virtual environment--
+
+when I say virtual environment, the virtual environment package, the venv--
+
+we'll type source and then the name of your environment and then slash bin slash activate. The key here when you see things, especially in Linux, environment names will often be preceded by a dot, and that's simply to hide that folder from the normal directory commands. So you'll see things like .tf2 for TensorFlow 2.
+
+Or I have a project at work called rozza and I'll have different versions. So I'll have environments called rozza 1, rozza 1.5, rozza 2.2 to denote the different types of main package I have in there.
+
+And each one of those environments may have an entirely different list of packages. As a final note for our friendly Windows users and a reminder that Windows users batch commands, and so rather than the Linux and Mac commands of qanda activate or source, we'll type the folder name. And you're just going to run a batch file in that folder that will activate the environment. So once you're inside your environment, you're going to want to install packages.
+
+So this is one of the key things that's nice that we don't always have to know what the website or location. Python has a central location for all the different packages. So what we'll do is we'll use a package manager. And this works both in regular Python and if you're in Anaconda.
+
+So what you'll do the safest way is to type Python dash m, and that simply allows us to use the version of Python that's in the virtual environment and then pip install and the package name. Now I've have a comment after here. You don't actually have to type the hash install. That's just a note for how to install a package.
+
+If you want to upgrade a package, you'll just use the double dash upgrade install, and that will upgrade to the latest version that's on our package repository. And when I say R, it's the Python package repository. Or many times if you're in a business environment, each large business may maintain their own repository. If you want to get a specific version, all you do is install or upgrade, and you use the double equals sign and give the version specific number and that specific version will be installed.
+
+So again, using the Python m is a safety protocol. It's not required. You can type pip install scikit learn or pip install rozza for the different packages. But to accidentally avoid installing in the wrong environment, the Python dash m ensures that the Python within the environment is actually being used.
+
+So you'll see things both ways. In fact, most people use the shortcut and will not add the Python dash m. So just remember that as a best practice when we're using our different virtual environments. The only difference thing is when we get to Anaconda, Anaconda also has its own package installer.
+
+Now the pip install will still work. But you can also type konda install, and you will get the package from Anaconda. So you have two ways within Anaconda to install packages, and the regular pip install works on virtual environment. Now, remember for virtual environment, you will not have the qanda command.
+
+Another word of caution is if you have a system with Python 3--
+
+and that's all of us--
+
+be aware that if you have a system Python, your user Python may use the command PIP3, even if your system Python is Python 3. This is a leftover convention from when we had two competing versions of Python. And we'll still see this installed even though there's only Python 3 in production environments. So be aware that sometimes both pip and Python require you to add the 3 afterwards.
+
+It's a simple fix. But it can catch you unaware when you'll type in Python, and you'll say Python not found. Well, of course, I've got Python on my system. I've got a Macintosh, or I've got a Linux computer.
+
+The default many times is actually Python 3 and PIP3, so just keep that in the back of your mind.
+
+
+
+
+
+Welcome to the video on Pandas--
+
+one of the most important packages that we're going to be using in quantifying the world class. So I'd like to give you a little bit of overview on how the important features of Pandas work. So Pandas, as I just mentioned, is really our data science workhorse. This was the package that really allowed data science to come to the forefront in Python.
+
+Pandas has the requirement of using NumPy, so many of the features within NumPy also work within Pandas. Just as NumPy is working with arrays, Pandas is built on top of that to allow both arrays, which are strictly number-based, and, of course, character or text data to be put all in the same array. So one of the important things about Pandas is the dimension of your object tells you what kind of feature you have. If you have one dimension of your features--
+
+in other words, a list--
+
+in Pandas, a Pandas one-dimension object is actually known as a series. So series beyond the list also have an index. We're going to talk about those indices that's different from the location, which is often referred to as an index before, but this has a well-defined index that is both located to the relation of the location of the item and can actually be a label as well. A DataFrame is the thing that we're going to be using 99% of the time, and it has two dimensions.
+
+So if your object in Pandas has two dimensions, you will get a DataFrame. The important difference between these is, oftentimes, when we are indexing our objects, it may return something that's one-dimensional or two-dimensional, and you can see a difference between the two. And if you ask yourself, why am I seeing this particular format, it's most likely related to whether your function returned a series or a DataFrame. Now, previously in Pandas and older versions, there was something called a panel, and that actually had three dimensions.
+
+It turned out that it's much easier and helpful for us to use a DataFrame with a multi-index. In other words, your index has sub-indices, and this can mimic a multi-dimensional three-dimensional object. So the majority of our time, we're going to be using the DataFrame, and typically we'll get series involved. And once you go beyond the DataFrame, you'll want to use multi-indices.
+
+But be aware that the thing called the panel is out there and was used in older versions of Pandas. The DataFrame object is one of the most important objects we're going to study in this class, and it's going to be our focal point for data manipulation. So we need to take a look at it carefully. The first important things in the DataFrame are the index and the column labels.
+
+Now, you'll see here that the index happens to be integers, and we may equate that with the position. But it's important to know that that index is actually a label and can be anything. Typically, we don't provide labels for our rows, so Pandas automatically labels them with integers. But you can see the columns here are labeled with our column headings, and we've got a timestamp, we've got full_sq, which stands for full square footage, living square footage, life_sq, and the floor.
+
+So this DataFrame object has labels for both the rows and the columns. One of the other important ideas about a DataFrame is that each column can have a different data type. And that's what separates a DataFrame from an array. An array is either all characters or all--
+
+a specific type of number, like a float or an integer. A DataFrame can have combinations of all of these within the columns. Now, each column will have a specifically defined data type, but the columns themselves can have different data types. For instance, we see that full square is an integer, but life square is actually a float.
+
+So even though they're both whole numbers, you can tell one is a float and one is an integer by the decimal point. And we can see, the timestamp is actually, in this case, a character column because you will see the date format there, and so that's a specific different type of numeric format so each column within the DataFrame can have a different data type. So look very carefully and double-check because you can see there can be many confusing instances. We've got integers that look like floats, time stamps that may be characters, so it's always best to inspect the object itself and have pandas tell you what is it storing the data like and what type of data format?
+
+So there are two ways within Pandas to sub-select the data. So if you want to select a particular column or a subset of columns and rows, there's two ways. The first way is what we're going to call By Label, and we will append .loc to our DataFrame object.
+
+So if my DataFrame object is called data, so all my data is stored in a data object, if I would like the first three rows and the timestamp and full-square columns, I would say "by location." And I just made a mistake. This is the common thing between location and .iloc. What I want is indexes 0 to 3, labels 0 to 3, and timestamp and full-square columns.
+
+So you'll see, I get 0, 1, 2, and 3. And you'll notice, unlike before where we have the inclusive and excluded label, when I say I want labels 0 to 3, it actually gives me starting at 0, ending at 3. But if I use what's called the .iloc notation, this is the actual positional location.
+
+So if I do .iloc 0 to 3 and 0 to 2, that means I want the rows 0, 1, and 2, and columns 0 and 1, remembering that we're going to lop off that last index. So typically, if we're going to iterate through something, we'll iterate by row or by column. So we'll tend to use the .iloc
+
+notation. But when you're trying to sub-select data, typically, you'll use the .loc notation. Both of these are in full use, and each one has a specific application when you're trying to manage your data.
+
+I suggest you get comfortable with both of them. One of the important things is you can actually use conditions to select portions. So let's say I want all the rows where the full-square column was greater than 43. So what I can do is I will put that as a condition within my square braces.
+
+So you can see here, I have data, square bracket, full-square greater than 43. This will return all the rows that have that column value greater than 43. Now, if I want specific columns where that value is greater than 43, I actually have to move to the .loc notation because I have to provide both a row and a subset of columns.
+
+So when we switch to using that, we'll have to use the .loc. But if you want to see all the columns that have a row with the condition, you don't have to use the .loc. This conditioning does not actually work for the .iloc, so be aware of that.
+
+So one of the nice things is it's very easy to just add the contents of one column to the contents of another column, or subtract. You can do all of your basic math operations by taking a column and simply using the appropriate mathematical operator--
+
+addition, subtraction, multiplication, division. And so we can actually create new columns based on data in old columns. So this is a quick way to create new data in an efficient way. You can just take the old columns and do your basic math to create new columns.
+
+All you have to do is just assign the new name to the Data column. One of the important things in Pandas is it provides a lot of methods. And, of course, we're going to get into a little bit of class and object-oriented programming, but the idea is a method is just something you're going to append upon the end of your object, and that method will perform some function for you. So if I would like the sum of a column, what I will do is I will select that column.
+
+So you see, I have the data, full square. I'm using square as "_sq." If I want the sum of all the values of that column, I would just append the .sum with empty brackets.
+
+That's our simple class method. So we have all these methods that are built in to actually provide these summary math operations for various columns and even rows. So we can manipulate and get different results by using these methods. They're built in for our convenience.
+
+So again, I've got this full square, which is a series object, it's one-dimensional, it's a single column, and the sum will work on that one-dimensional series, and it will provide a single number out, which is the total of all the objects added up or all the numbers added up within that column. So the important column summary methods are, of course, sum, that we just talked about, there's a mean--
+
+and remember, it's mean and not average--
+
+the standard deviation, the median, the mode. All our basic statistical methods are built in when we want column summary. So these will all return a single value for you that provides that summary of that particular column or subset of that particular column. Other important methods that we'll frequently encounter are things like isnull, and that will tell you whether or not the value is blank.
+
+This is something we're going to have an entire unit on is dealing with missing data. Well, one of the first keys of missing data is telling you where the missing data's at. So this .isnull method actually will provide an index of true and false to tell you whether that value is null or not.
+
+Another thing is we've talked about math, what about text data? And so if you're trying to match text data, we've got a method that has a sub-method. So we would add .str.contains and then your match string, and you will get an index value of whether that particular row contains that match within a particular column.
+
+Another interesting one that doesn't provide an index but returns a series is the .unique, and this would give you all the unique values. So let's say I've got a column with a bunch of colors in it--
+
+red, blue, green, purple-- .unique would actually return all the unique values. This is helpful if we're going to one-hot encode or just for understanding what our column contains. Tacking on to that, we actually have a value_counts method, and so that is an extension of the unique method where not only are the unique values returned but how many times that unique value is present.
+
+So I would have--
+
+this will actually return a DataFrame for something like if I've got my red, green, and blue, and it will say you have five rows that are red, six rows that are blue, and 15 that are green. So it actually matches the occurrence with the unique value and provides a summary for us. One of the key things is the shape. Because if we're going to look and iterate through our DataFrame, we want to know what the size of that DataFrame is, and the .shape
+
+actually tells you. Now, .shape is one of those gotchas for Python. For some reason, there's no parentheses here.
+
+So when you do .shape, it'll actually return a list with the shape of your object where the first index will be the number of rows and the second index will be the number of columns. So we can use that to iterate through a range of rows and columns. But it's always helpful to tell if you're adding things to your DataFrame or subtracting things to your DataFrame to check your data size.
+
+So get familiar with the shape command. It'll come in quite handy for us. Another one that's very handy for data exploration is the describe method, and this will provide summary statistics of all your columns. So again, this will return our DataFrame, but it will also do things like returning value counts.
+
+It will return the median, the average, so it provides summary statistics for your entire DataFrame. One of the most handy things that this can be used for is actually finding missing data because missing data is not included in the value counts. So any count that is different than your shape means that column has missing data. It can also help describe if data is normally distributed and provides a high level look at all the features within your DataFrame without having to pull up this massive spreadsheet of data that can be unwieldy for all of us to look at.
+
+If we want to look at the column and index names or even relabel them, we can use the columns and index methods. So you can both look at your list of column names and index names, or you can rename them using these methods. So this is important if you're trying to relabel. I'd like to call column x, column y, or instead of full square or full_sq, I could label it full_square and no one would be confused about what I'm actually talking about.
+
+The other and final part of the DataFrame is the dtypes. Now, we talked earlier about understanding what type of data that it can be confusing and is not readily apparent. So to actually tell, you can type data.dtypes if data is your DataFrame object, and that .dtypes
+
+will actually list the data type for your column. So you will have an explicit list of the format for each column, and there will be no question about what data is contained therein.
+
+
+
+
+
+Hi, and welcome to the video on linear regression, one of the most important and fundamental parts of data science. Linear regression gets a little bit of a bad rap, because everybody was introduced to it first. But it underpins most of what we do in our quantifying the world class, and it's actually the source for many of our higher algorithms. So it's important for us to understand the fundamentals for how linear regression is performed and the basic details of linear regression itself.
+
+So let's take a quick review, because this is probably not the first time you've had linear regression. So a linear regression is our old friend, the y equals mx plus b. And now what we're doing is we're adding on multiple variables. So each variable x becomes our data input from a column.
+
+So our variables here, our xs, would be the timestamp, the full square, the life square, the floor, and the price. However, the price is actually our target for the linear regression. So if we were to build a basic model, we would say that the price is equal to some slope or some unknown that we're going to call m1 times the timestamp, m2 times the full square, and so on and so forth. And then we'd have a final slope that represents our intercept.
+
+And traditionally in data science, instead of calling it b, or the intercept, we actually make it m0. That way, it allows us to make a more compact notation. And for mathematicians, a compact notation is something of a convenience. But it's really just a different name, and it doesn't matter whether we call it b or m0.
+
+But the fundamental assumption of the linear regression is that your target or your output is just a linear function. Now for those of you who have been away from math for many years, remember, a linear function is something that's just first order. So linear functions are the mx plus b--
+
+mx plus mu plus mt, where x, u, and t are all your variables. So there are no powers involved, or higher orders, or sinusoids, logarithms--
+
+anything like that. It's all first order. That's linear regression. What we're going to do is we're going to try and figure out what the slopes are by minimizing our loss.
+
+So if we're going to minimize our loss, we're going to need a loss function. And what is our loss function? Our loss function is simply, how far off of a guess are we? We're going to make a guess at what we think the target is.
+
+And we actually know what the target is. In the previous slide, we saw it was the price. Obviously that was housing data. We saw a price.
+
+We saw things like when the house was sold, the square footage, the living space, what floor. And all those will be inputs to predict the price. And when we predict that price, because we know the actual price, we measure the difference between the predicted price and the actual price. And our default that most people have used since forever is the mean squared error.
+
+And the mean squared error is actually just the distance between the target and the prediction. Now when we say distance, remember, we're actually going to use the distance formula. So when we look at distance, sometimes we think of, oh, the distance between point A and point B is just B minus A. The reason we use mean squared error is because we have multiple dimensions.
+
+So if we're trying to look between the point A and B and A and B are in three dimensions, we'll need the x, y, and z-coordinate. Now remember, we typically use y as our target. Here I'm actually talking about physical space--
+
+length, width, and height, x, y, and z. So if I'm looking at the difference between points A and B in three-dimensional space, I'll need the x, y, and z-coordinates of both. And our traditional distance formula is to take the individual components, the a value or the x value of A and the x value of b, and we subtract those. And of course we take the difference squared--
+
+it's the Pythagorean Theorem. So that's what we're using mean squared error as our default, because it tells us how far in multiple dimensions are we away. This may be confusing, because you may look, oh, I've got a target and I've got a prediction. But the key here is the prediction is a function of many variables.
+
+And so that's why we're using the mean squared error. So when we get into our packages, the package will typically solve linear regression for us. So you've probably encountered different methods, like gradient descent. However, behind the scenes, it really doesn't matter what package you're going to use or what solver you're going to use.
+
+The key idea is your package will minimize this difference between your prediction and the target. So whether you're using something like gradient descent or some of the faster algorithms, all the faster algorithms are actually doing is just figuring out a faster way to get to the minimum loss than our traditional gradient descent. Gradient descent is not an incorrect method, it's just the original, and so now we've improved upon it to get just a faster, more efficient solution. So we talked about how linear regression is, of course, a linear problem.
+
+But our world is nonlinear, and we often find terms that are of higher order. So what we can do as a first approximation at improving our model is we can start to do variable substitution. So if we get an intuition that maybe instead of some value--
+
+maybe instead of a linear value--
+
+the target might be dependent on a value squared--
+
+what we can do is actually make a variable substitution. And by using that variable substitution, our model does not care whether our variable is substituted. So we can see here, we've changed our prediction. We have our slope, m0, we have our first variable, x1.
+
+And it has its slope associated with it. And now we have this second variable. And if it happened that we guessed that perhaps the second variable is a squared variable--
+
+in other words, the square of the value contributes linearly to the prediction--
+
+well then we can just say, well, instead of using the original value, I will use the square of the value. That's what we're doing with a variable substitution. We are transitioning to a linear example. If we were plotting, we might think of, let's plot the relationship between y and x2.
+
+And if we see that relationship is nonlinear, and instead let's plot the relationship between y and x2 squared and that relationship is linear, that's what we're doing with a variable substitution. It allows us to add terms which we think in our heads, it seems counterintuitive that I'm just doing a variable solution, why would that change anything? But it allows our model to function properly. So one of the key things when we're working with linear regression is to figure out what kind of new features might contribute a linear solution to our prediction.
+
+And that's what we're doing with feature creation, is creating new columns of data and using variable substitutions, transforming our data so that the range of output provides a linear response to our prediction. So one of the best things about linear models is they are extremely interpretable. So we say if our data is normalized--
+
+and you should always normalize your data--
+
+we're going to find that with many of our models, normalized data is an important feature of getting the model to work properly. So what is normalized data? Normalized data is data where each column has a range that is equal. Typically we'll say the range should be from negative one to one or zero to one.
+
+That may seem a little counterintuitive, because we saw with the square footage, square footage can be typically in the thousands. So why would I want to squeeze that data range down between zero and one or negative one and one? Well the key is sometimes variables have huge ranges. Now if we look at the floor, the floor may vary from, say, zero to three.
+
+Maybe the maximum floor or number of floors in a house is--
+
+many homes are one story or two story, and a few are three. So you'd have a range of three. But if square footage, you could have, say, a small apartment of 600, and you could possibly have a huge home with 10,000 square feet. That's a couple of orders of magnitude.
+
+And so, in order to find how the data is important, we want both of those ranges to be equal. So while we choose a range of zero to one, you can still choose a range of zero to 100, or even 0 to 1,000, or negative five to five. The key is that all your data falls within that same range. And another important is that the variance of that data is uniform.
+
+With uniform variance and uniform range, when we look at the features or the slopes when we get out of our linear model, those slopes tell you what data is most important. In other words, as that data changes, it has the biggest impact on your prediction or your target. If your data is not normalized, what happens is the range is factored into that importance. And you can be fooled to think maybe your data is more important, when in reality, it just has a much larger range than other pieces of your data.
+
+That's the importance of normalizing our data to get that variable importance. And so when we look at the variable importance or the slopes, if we have a positive slope, that means as your data increases, its contribution to the prediction increases. If you've got a negative slope, it means as your data value increases, its contribution to the prediction is actually negative. It's actually subtracting from the final value of your prediction.
+
+In other words, to increase your prediction, you'd actually want to decrease the value of your data. And it's important to understand which way these things go. But that's what our slopes are actually telling us. Now non-normalized data will still give you the correct slope sign.
+
+So it will not change a direct relationship to an indirect relationship. All it will change is the absolute values of the slopes for your variable importance. So once you've had a linear model and you're open to interpretation, one of the great things is you can go to your customer and say, if you want more profit, then you need to work with these particular variables. So you can directly say, if you want your house to sell for more, you need to add square footage.
+
+Or perhaps seems a little absurd--
+
+add another floor. Things like that are able to tell, a-ha, if I do this with the input, the output will either increase or decrease. And it, of course, depends on the problem whether you actually want to do that. The other important part about linear models is they run extremely fast.
+
+So linear models are some of the fastest models that we can use. This has important implications as our data sizes get bigger and bigger and bigger as we become crunched for computer resources. So as our linear models are used, they are extremely efficient and are able to run larger and larger data sets in a time frame that may be more appropriate to our deadline. So keep that in mind.
+
+Although linear models tend to fall out of fashion, for the latest greatest deep neural network or perhaps an xgboost, linear models run much faster than anything else and can save you time and actually give you direct insight into how your data is affecting your target. So if we want to do a linear model, we're going to bring up sklearn. So here's a bit of code snippet for us to actually bring up a linear model. And it actually is quite simple.
+
+You can see we import our linear regression object, and we'll just assign that a name. And then once that name--
+
+or that object has a name, we will use what's called the fit method. And this will actually solve your problem for you. So many times we go through this exercise of having you create a gradient function and working with the different losses. But for a linear model, to get us starting in Python is actually just a few lines of code.
+
+And so we can start to see how easy it is to start producing models. And that's the advantage of many of these packages, is the computer scientists who have found the fastest way have already coded it for us. So we can take advantage of our computing resources and spend the time modeling rather than the time writing code. So just a quick word about object-oriented programming.
+
+If you've ever been intimidated, we've actually start to see it right here. And so what we're going to start to see is linear regression is what's called the class. And so that class is a predefined object. And what we want is, OK, I want to perform a linear regression.
+
+I want a linear regression model. So I'm going to call my linear regression model. I'm going to create an object called LR, for Linear Regression. So this is my linear regression model.
+
+Now this next line, as I go to the fit, this says x is my input data. So my data frame of columns, that will be x. And y will be my targets. Now these are simply placeholders.
+
+I could have x data and y data, or oftentimes we have train and test. But these are just labels. And again, these are just objects. So this is your data and this is your target.
+
+And we just call this fit method, and that will find the most efficient values of the slopes, our ends. And so then if we want to predict--
+
+let's say I've got a test data set, and I want to know what are the predictions for that test data set without doing any training. So the fit method is our training method. We can predict using our learned values with the predict method. So this will return a list of predictions--
+
+one for each row in our test data set. And once we've got our fit, what we can do is we want to know what those variable importances are. So to get those variable importances, what we'll do is we'll use this dot--
+
+I call it coefficients, but .coef_, and this will return in order our slope values. So now we have our variable importances. And of course, we remember that we have that extra one, and they were nice to actually write Lr.intercept
+
+to get the slope of m0, which is the intercept. So all of this discussion that we've done in the past, we can get up and running on our linear regression model in just a few lines of code. Of course, the key here is we have our x and our y ready along with our test data. So most of our coding is actually going to be around putting together a data frame of appropriate x-values.
+
+And then when we get to the end, we'll run our fits. And we'll talk about some of the fits and some of the different things we can do in the future. But this is our basic progression of how to set up a model. We'll import that model from sklearn.
+
+We'll give it a name. We'll fit the model. And then we get predictions. And then at the end, we'll look at whatever values are important.
+
+And of course, for linear models, the coefficients, being our variable importance, are the things we're going to want to communicate with our customer to say, here's what's important for your model. Here's where you're going to get the most return for changing things.
+
+
+
+
+Welcome to the first case study. What you're about to see is a short video that simulates how a problem would be presented to a prospective data scientist. What I'd like you to do is follow along and see if you can pick up the same details or perhaps different details that our data scientist in the video is starting to ask. Grow along with this journey, so that you start to develop your skill set.
+
+And understand the details about the problem being presented, the particulars of the data being used, and the particulars of the problem. In each video, there is a segment where we will pause. Take this opportunity to write down your own questions and notes about the case study. That is an appropriate time for you to take those notes and submit them for your participation grade.
+
+This first study is a study of linear regression. We will present more details, but use a linear regression in this case study. And follow along with our protagonist as they start to learn more about the details.
+
+
+
+
+
+All right. So today we have a problem that has been brought to us from a group of scientists that are looking at superconductors. Superconductors are materials that give little or no resistance to electrical current. So this is of pretty big importance to the scientific community.
+
+Now what they're looking for is for us to use the data to produce a model to predict new superconductors based on the properties and the data that they found so far. Data points include a material composition, temperature, which they superconduct. We're going to take a look at the data set in just a minute. But I want to make sure that we're clear that the model is going to predict new superconductors and the temperature which they operate based on the experimental inputs from the data that they have already.
+
+It needs to be interpretable so that they can figure out at what temperature new superconductors would become superconductors, not only if they would be superconductors. So we're going to take a look at that. And then if you have any questions, I'll be happy to answer them then.
+
+
+
+OK, so you've had a chance to look at the data, what questions do you have? I have multiple questions. My first one is, is there any additional information that the data, like perhaps what each column represents? Yes, there is a metadata file that will describe each column for you.
+
+OK, and is all of the data filled in or is there any data missing? No, there's no missing data in this particular study. OK, final question, how will the scientists determine if the model is interpretable or explainable? We will need to tell them in the model the relative importance of each column or variable.
+
+
+
+
+
+
+Module 2.  (not complete)
+One of our biggest problems, as we start to introduce more and more advanced models, is overfitting--
+
+also known in statistics as bias. Overfitting means that the model is fit to the particular data set that we used to build the model. Then it is the general problem. So in other words, an overfit model does not perform as well on new or unknown data as it does the data we've used to build our models.
+
+So what we need to do is start to introduce some tools to combat overfitting. Here's an example of what overfitting is. It's possible for us to build a perfect fit for our blue data with the orange line. You can see we essentially connect from one blue dot to another.
+
+In the past, when we've used linear models, we used essentially a straight line. But as we move to nonlinear models, we'll start to be able to make more and more complex curves for our modeling. So we can see that if we had a perfect fit of the blue data and we introduced some of the red data from our data set, the model that was originally trained perfectly is actually a much poorer fit than the general line represented by the green model. So in summary, overfitting is the bane of our most advanced models.
+
+And while we can monitor for overfitting by using a validation set, what we really need is a set of tools to combat overfitting from occurring in the very first place.
+
+
+
+### Summary and Outline for **QTW 7333 Module 1**
+
+---
+
+#### **Summary**
+The module introduces foundational concepts in Python for data science, focusing on the tools and methods essential for Quantifying the World (QTW). Key topics include Python setup and packages like NumPy, Pandas, and Scikit-Learn, emphasizing their roles in data manipulation, statistical modeling, and machine learning. Virtual environments and package management strategies are discussed to ensure reproducibility and compatibility. Advanced topics such as linear regression and case studies are also introduced, showcasing practical applications of Python in data science and building interpretable models.
+
+---
+
+### **Outline**
+
+#### **1. Introduction to Python for Data Science**
+- Importance of Python in data science.
+- Evolution of Python (focus on version 3.x).
+- Core Python packages for data science:
+  - **NumPy**: Array manipulation.
+  - **SciPy**: Mathematical and scientific functions.
+  - **Pandas**: DataFrames for data cleaning and manipulation.
+  - **Scikit-Learn**: Machine learning models.
+  - **PyTorch & TensorFlow**: Neural networks (briefly mentioned).
+
+---
+
+#### **2. Managing Python Versions and Environments**
+- Challenges with Python versions and system dependencies.
+- Role of **virtual environments**:
+  - Isolated environments for package management.
+  - Compatibility between different projects.
+- Tools:
+  - `venv` and Anaconda.
+  - Commands for activation and deactivation.
+
+---
+
+#### **3. Python Fundamentals for Data Science**
+- Python basics:
+  - Zero-based indexing.
+  - Open/closed interval conventions in ranges.
+- Indentation as a structural element in Python.
+- List comprehensions and their advantages over loops.
+
+---
+
+#### **4. Introduction to Pandas**
+- Key concepts:
+  - **Series**: 1D structures.
+  - **DataFrames**: 2D structures with labeled rows/columns.
+- Data manipulation techniques:
+  - Selecting subsets with `.loc` and `.iloc`.
+  - Conditional filtering.
+  - Creating new columns via mathematical operations.
+- Summary methods:
+  - `.sum()`, `.mean()`, `.describe()`, `.isnull()`, `.unique()`.
+  - `.value_counts()` and `.shape` for data exploration.
+- Importance of checking data types (`.dtypes`) and renaming columns.
+
+---
+
+#### **5. Introduction to Linear Regression**
+- Definition and significance in data science.
+- Fundamental formula: \( y = mx + b \) (extended to multiple variables).
+- Loss function: Mean squared error (MSE).
+- Data normalization:
+  - Equalizing variable ranges for interpretability.
+  - Slope coefficients for determining variable importance.
+- Implementation in Scikit-Learn:
+  - Steps: Import, fit, predict, and evaluate coefficients.
+
+---
+
+#### **6. Case Study: Predicting Superconductor Properties**
+- Problem description:
+  - Predicting new superconductors and their operating temperatures.
+  - Focus on model interpretability.
+- Key data science questions:
+  - Understanding dataset metadata.
+  - Handling missing data (if any).
+  - Explaining variable importance to domain scientists.
+
+---
+
+### **Takeaways**
+- Python's flexibility and extensive libraries make it ideal for data science.
+- Virtual environments and package management ensure a stable workflow.
+- Pandas and Scikit-Learn are critical for data manipulation and modeling.
+- Linear regression is foundational, providing interpretability and speed.
+- Practical application of skills in real-world case studies strengthens understanding.
+
+
+### **Pre-Session Questions for Case Study 1**  
+These questions are designed to help participants critically think about the data, problem, and methodologies before diving into the case study.
+
+---
+
+#### **Understanding the Problem**
+1. **Problem Scope**:  
+   - What is the main goal of this project?  
+   - Why is it important to predict the temperature at which materials become superconductors rather than just identifying if they are superconductors?
+
+2. **Model Requirements**:  
+   - What does it mean for a model to be "interpretable"?  
+   - How will the interpretability of the model affect the usefulness of its predictions for the scientists?  
+
+3. **Potential Challenges**:  
+   - What difficulties might arise in predicting a continuous variable (temperature) from material composition data?  
+   - How might the complexity of the data (e.g., chemical compositions) impact model performance?
+
+---
+
+#### **Exploring the Dataset**
+4. **Data Features**:  
+   - What types of variables would you expect in the dataset (categorical, numerical, etc.)?  
+   - How could the presence of highly correlated features (e.g., different measures of material composition) influence model performance?
+
+5. **Data Integrity**:  
+   - What strategies would you use to check for missing or inconsistent data in the dataset?  
+   - If there were missing values, how would you handle them in a linear regression context?
+
+6. **Data Normalization**:  
+   - Why is it important to normalize or scale data before using linear regression?  
+   - How might the lack of normalization affect model interpretability?
+
+---
+
+#### **Feature Engineering and Model Building**
+7. **Feature Importance**:  
+   - How can you determine which features are the most important for predicting the target variable?  
+   - What methods could be used to assess and communicate feature importance to the scientists?
+
+8. **Feature Transformations**:  
+   - What role might feature transformations (e.g., variable substitution, squaring, or logarithmic transformations) play in improving model performance?
+
+9. **Linear Assumptions**:  
+   - What assumptions about the data does a linear regression model make?  
+   - How would you test whether these assumptions hold for this dataset?
+
+---
+
+#### **General Application**
+10. **Interpreting Results**:  
+    - Beyond predicting temperature, how could the model’s results guide scientists in designing new materials?  
+    - What additional information might the scientists need to validate the model's predictions?  
+
+11. **Alternative Models**:  
+    - If linear regression fails to produce accurate or interpretable results, what alternative methods could you use?  
+    - How would you decide between a simpler interpretable model and a more complex black-box model?
+
+---
+
+### **Optional Questions for Deep Thinking**
+12. **Domain Knowledge**:  
+    - How might incorporating domain-specific knowledge (e.g., chemical or physical principles) improve model performance or interpretability?  
+    - What challenges might arise when working with domain experts to enhance the model?
+
+13. **Bias and Variance**:  
+    - What trade-offs might you face between bias and variance in the context of this problem?  
+    - How would you address overfitting or underfitting in this scenario?
+
+---
+
