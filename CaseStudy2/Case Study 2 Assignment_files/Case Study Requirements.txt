@@ -1,0 +1,40 @@
+
+Case Study Requirements:
+• All data prep described
+	o Imputation methods
+		▪ Why did you choose that?
+	o Size of data (features, examples)
+	o How splits were performed
+• Data Science Model(s) used
+	o Configuration
+		▪ Early Stopping
+		▪ Loss Function/Metric Optimized
+		▪ Other metrics monitored
+	o Hyperparameters tested
+		▪ (aka Ablation Study)
+		▪ Random/Grid/Other/Combo
+	o Best Hyper Parameters
+• Results:
+	o Continuous Problem
+		▪ Loss metrics
+		▪ Residuals
+		▪ Plots of Predicted vs Target (All examples)
+	o Classification Problem
+		▪ Confusion Matrix (all examples)
+		▪ Classification Report (all examples)
+		▪ AUC-ROC
+			• Binary Problems Only
+		▪ Precision, Recall, Sensitivity, Specificity
+• NO MORE USING THESE 
+	o “Performed Well”
+		▪ Results speak for themselves: Accuracy was X, Precision was Y
+	o “Good Results”
+		▪ See above
+	o “Impressive”
+		▪ Unless its state of the art, its not impressive and since NONE of the
+			homework is on standard data, you will never have state of the art
+			in this class.
+	o Train/Test Splits
+		▪ You must cross validate everything 
+		- grid values / grid search 
+
