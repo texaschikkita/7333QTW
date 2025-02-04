@@ -1,0 +1,694 @@
+I made the following example ready to run in Google Colab on an A100 GPU by removing all cUML references (so it just uses cuDF for GPU-based data handling, then converts data to Pandas for scikit-learn). When you open a Colab notebook, make sure you select the A100 GPU by going to Runtime → Change runtime type → Hardware accelerator: GPU → GPU name: A100. Then just copy and paste the entire code block below into a new cell and run it:
+
+import cupy as cp
+import cudf
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import roc_auc_score, classification_report, confusion_matrix
+
+# I assume your diabetic_data is already in a Pandas DataFrame named 'diabetic_data'.
+# If you have it in a CSV on your Drive, for example:
+# diabetic_data = pd.read_csv("/content/drive/MyDrive/diabetic_data.csv")
+
+# Convert Pandas DataFrame to cuDF for GPU-accelerated data manipulation
+diabetic_data_cudf = cudf.DataFrame(diabetic_data)
+
+# List of categorical and numeric columns
+categorical_cols = ['race', 'gender', 'age', 'change', 'diabetesMed', 'insulin']
+numeric_cols = ['time_in_hospital', 'num_lab_procedures', 'num_procedures', 'num_medications',
+                'number_outpatient', 'number_emergency', 'number_inpatient', 'number_diagnoses']
+
+# One-hot encode categorical features using scikit-learn (requires a Pandas DataFrame)
+ohe = OneHotEncoder(sparse=False, handle_unknown='ignore')
+encoded_cats = ohe.fit_transform(diabetic_data_cudf[categorical_cols].to_pandas())
+encoded_cats_df_cudf = cudf.DataFrame(encoded_cats, columns=ohe.get_feature_names_out(categorical_cols))
+
+# Drop original categorical columns from the cuDF DataFrame
+diabetic_data_cudf.drop(columns=categorical_cols, inplace=True)
+
+# Concatenate one-hot encoded columns back (still in cuDF format)
+diabetic_data_cudf = cudf.concat([diabetic_data_cudf, encoded_cats_df_cudf], axis=1)
+
+# Scale numeric columns using scikit-learn StandardScaler
+# (We temporarily convert the numeric cuDF subset to Pandas)
+scaler = StandardScaler()
+scaled_numeric = scaler.fit_transform(diabetic_data_cudf[numeric_cols].to_pandas())
+scaled_numeric_cudf = cudf.DataFrame(scaled_numeric, columns=numeric_cols)
+
+# Replace original numeric columns with scaled data
+diabetic_data_cudf[numeric_cols] = scaled_numeric_cudf[numeric_cols]
+
+# Separate features (X) and target (y) in cuDF
+X_cudf = diabetic_data_cudf.drop(columns=['readmitted'])
+y_cudf = diabetic_data_cudf['readmitted']
+
+# Convert cuDF to Pandas for scikit-learn model training
+X = X_cudf.to_pandas()
+y = y_cudf.to_pandas()
+
+# Split data into train and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y,
+                                                    test_size=0.2,
+                                                    stratify=y,
+                                                    random_state=42)
+
+# Logistic Regression (CPU-based scikit-learn, but your data manipulations are GPU-based)
+log_reg = LogisticRegression(max_iter=1000, class_weight='balanced', solver='lbfgs')
+log_reg.fit(X_train, y_train)
+
+# Predictions
+y_pred = log_reg.predict(X_test)
+# In case of a binary classification: probabilities for ROC-AUC
+# If you have more than two classes, you can set multi_class='ovr'
+y_pred_prob = log_reg.predict_proba(X_test)
+
+# Confusion matrix and classification report
+conf_matrix = confusion_matrix(y_test, y_pred)
+class_report = classification_report(y_test, y_pred)
+
+# ROC-AUC (set multi_class='ovr' or 'ovo' if it's a multi-class problem)
+roc_auc = roc_auc_score(y_test, y_pred_prob, multi_class='ovr')
+
+print("Confusion Matrix:\n", conf_matrix)
+print("\nClassification Report:\n", class_report)
+print("ROC-AUC Score:", roc_auc)
+
+
+
+
+----
+
+Below is the full code in a copy‐paste friendly format. Just copy the entire text into a new Google Colab notebook and run it. I’ve included inline comments so you can follow along.
+
+----------------------------------------------------------------
+from google.colab import drive
+drive.mount('/content/drive')
+
+import pandas as pd
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
+from sklearn.preprocessing import label_binarize
+
+# Ensure GPU usage (this will use your A100 GPU if available)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print("Using device:", device)
+
+# Load datasets from Google Drive
+diabetic_data_path = '/content/drive/MyDrive/diabetic_data.csv'
+ids_mapping_path = '/content/drive/MyDrive/IDs_mapping.csv'
+diabetic_data = pd.read_csv(diabetic_data_path)
+ids_mapping = pd.read_csv(ids_mapping_path)
+
+# Display initial samples and shapes
+print("Diabetic Data Sample:")
+print(diabetic_data.head())
+print("\nIDs Mapping Data Sample:")
+print(ids_mapping.head())
+print("\nDiabetic Data Shape:", diabetic_data.shape)
+print("IDs Mapping Shape:", ids_mapping.shape)
+
+# Display basic info about the datasets
+print("\nDiabetic Data Info:")
+print(diabetic_data.info())
+print("\nIDs Mapping Info:")
+print(ids_mapping.info())
+
+# Explore missing data in diabetic_data
+missing_values = diabetic_data.isin(['?', np.nan]).sum()
+missing_values = missing_values[missing_values > 0].sort_values(ascending=False)
+print("\nMissing Values Summary:")
+print(missing_values)
+missing_percentage = (missing_values / diabetic_data.shape[0]) * 100
+print("\nPercentage of Missing Values:")
+print(missing_percentage)
+
+# Plot 'readmitted' class distribution
+print("\nReadmitted Value Counts:")
+print(diabetic_data['readmitted'].value_counts())
+sns.countplot(data=diabetic_data, x='readmitted', order=diabetic_data['readmitted'].value_counts().index)
+plt.title("Readmission Distribution")
+plt.show()
+
+# Check for duplicate rows
+duplicate_count = diabetic_data.duplicated().sum()
+print("\nNumber of duplicate rows:", duplicate_count)
+
+# Inspect feature types
+print("\nData Types:")
+print(diabetic_data.dtypes)
+
+# ----------------------------
+# Data Cleaning and Preprocessing
+
+# Drop columns with high missing values and ID columns
+cols_to_drop = ['weight', 'max_glu_serum', 'A1Cresult', 'medical_specialty', 'payer_code', 'encounter_id', 'patient_nbr']
+diabetic_data.drop(columns=cols_to_drop, inplace=True)
+
+# Impute missing values for categorical features with the most frequent value.
+# Replace '?' with np.nan then fill with mode.
+categorical_imputer_cols = ['race', 'diag_1', 'diag_2', 'diag_3']
+for col in categorical_imputer_cols:
+    diabetic_data[col].replace('?', np.nan, inplace=True)
+    diabetic_data[col].fillna(diabetic_data[col].mode()[0], inplace=True)
+
+# Convert 'readmitted' to numerical categories (0 = 'NO', 1 = '>30', 2 = '<30')
+diabetic_data['readmitted'] = diabetic_data['readmitted'].map({'NO': 0, '>30': 1, '<30': 2})
+
+# Convert selected categorical features to numeric using LabelEncoder
+categorical_cols = ['race', 'gender', 'age', 'insulin', 'change', 'diabetesMed']
+label_encoders = {}
+for col in categorical_cols:
+    le = LabelEncoder()
+    diabetic_data[col] = le.fit_transform(diabetic_data[col])
+    label_encoders[col] = le
+
+print("\nCleaned Data Summary:")
+print(diabetic_data.info())
+
+# ----------------------------
+# Further Processing: Categorize ICD-9 codes and encode medications
+
+# Function to categorize ICD-9 diagnosis codes
+def categorize_diagnosis(code):
+    try:
+        code = float(code)
+        if 390 <= code <= 459 or code == 785:
+            return "Circulatory"
+        elif 460 <= code <= 519 or code == 786:
+            return "Respiratory"
+        elif 520 <= code <= 579 or code == 787:
+            return "Digestive"
+        elif 580 <= code <= 629 or code == 788:
+            return "Genitourinary"
+        elif 250 <= code < 251:
+            return "Diabetes"
+        elif 800 <= code <= 999:
+            return "Injury"
+        else:
+            return "Other"
+    except:
+        return "Other"
+
+# Apply categorization to diagnosis columns and then one-hot encode them
+for col in ['diag_1', 'diag_2', 'diag_3']:
+    diabetic_data[col] = diabetic_data[col].apply(categorize_diagnosis)
+diabetic_data = pd.get_dummies(diabetic_data, columns=['diag_1', 'diag_2', 'diag_3'], drop_first=True)
+
+# Convert medication columns from categorical to numeric values
+medication_cols = ['metformin', 'repaglinide', 'nateglinide', 'chlorpropamide', 'glimepiride', 'acetohexamide',
+                   'glipizide', 'glyburide', 'tolbutamide', 'pioglitazone', 'rosiglitazone', 'acarbose',
+                   'miglitol', 'troglitazone', 'tolazamide', 'examide', 'citoglipton', 'insulin',
+                   'glyburide-metformin', 'glipizide-metformin', 'glimepiride-pioglitazone',
+                   'metformin-rosiglitazone', 'metformin-pioglitazone']
+for col in medication_cols:
+    diabetic_data[col] = diabetic_data[col].map({'No': 0, 'Down': 1, 'Steady': 2, 'Up': 3})
+
+print("\nFinal Processed Data Summary:")
+print(diabetic_data.info())
+
+# Re-encode 'insulin' column if needed (ensuring it is numeric)
+if diabetic_data['insulin'].dtype == object:
+    diabetic_data['insulin'] = diabetic_data['insulin'].map({'No': 0, 'Down': 1, 'Steady': 2, 'Up': 3})
+
+# Convert any Boolean columns to integers (0 or 1)
+bool_cols = diabetic_data.select_dtypes(include=['bool']).columns
+diabetic_data[bool_cols] = diabetic_data[bool_cols].astype(int)
+print("\nVerified Data Types After Processing:")
+print(diabetic_data.info())
+
+# ----------------------------
+# Prepare data for PyTorch model training
+
+# Separate features and target variable
+X = diabetic_data.drop(columns=['readmitted'])
+y = diabetic_data['readmitted']
+
+# Convert to numpy arrays (features as float32 and labels as int64)
+X_np = X.values.astype(np.float32)
+y_np = y.values.astype(np.int64)
+
+# Split the data into training and testing sets (stratify by target)
+X_train, X_test, y_train, y_test = train_test_split(X_np, y_np, test_size=0.2, random_state=42, stratify=y_np)
+
+# Standardize the features
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Convert the data to torch tensors and move them to the GPU
+X_train_tensor = torch.tensor(X_train).to(device)
+y_train_tensor = torch.tensor(y_train).to(device)
+X_test_tensor = torch.tensor(X_test).to(device)
+y_test_tensor = torch.tensor(y_test).to(device)
+
+# ----------------------------
+# Define a simple PyTorch model (a one-layer network for multi-class classification)
+class SimpleNN(nn.Module):
+    def __init__(self, input_dim, output_dim):
+        super(SimpleNN, self).__init__()
+        self.linear = nn.Linear(input_dim, output_dim)
+    def forward(self, x):
+        return self.linear(x)
+
+input_dim = X_train_tensor.shape[1]
+output_dim = 3  # Three classes: 0, 1, 2
+model = SimpleNN(input_dim, output_dim).to(device)
+print("Model structure:", model)
+
+# Define loss function and optimizer
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+
+# ----------------------------
+# Training loop
+num_epochs = 50
+for epoch in range(num_epochs):
+    model.train()
+    optimizer.zero_grad()
+    outputs = model(X_train_tensor)
+    loss = criterion(outputs, y_train_tensor)
+    loss.backward()
+    optimizer.step()
+    
+    if (epoch + 1) % 10 == 0:
+        print("Epoch [{}/{}], Loss: {:.4f}".format(epoch + 1, num_epochs, loss.item()))
+
+# ----------------------------
+# Evaluate the model on the test set
+model.eval()
+with torch.no_grad():
+    test_outputs = model(X_test_tensor)
+    _, predicted = torch.max(test_outputs, 1)
+    test_loss = criterion(test_outputs, y_test_tensor).item()
+
+print("\nTest Loss:", test_loss)
+print("\nConfusion Matrix:")
+print(confusion_matrix(y_test_tensor.cpu().numpy(), predicted.cpu().numpy()))
+print("\nClassification Report:")
+print(classification_report(y_test_tensor.cpu().numpy(), predicted.cpu().numpy()))
+
+# ----------------------------
+# Calculate ROC-AUC Score for multi-class classification
+# Compute softmax probabilities for the test outputs
+probabilities = torch.softmax(test_outputs, dim=1).cpu().numpy()
+# Binarize the test labels for ROC-AUC calculation
+y_test_binarized = label_binarize(y_test, classes=[0, 1, 2])
+roc_auc = roc_auc_score(y_test_binarized, probabilities, multi_class='ovr')
+print("ROC-AUC Score:", roc_auc)
+----------------------------------------------------------------
+
+This code mounts your Google Drive, loads and cleans the data, processes missing values and categorical variables, prepares the data for training, defines and trains a simple PyTorch neural network (running on your A100 GPU), and then evaluates the model using confusion matrix, classification report, and ROC-AUC.
+
+-----
+
+Here’s a version of the code without the sparse=False argument (so it works for older scikit-learn versions). Instead, we call .toarray() (or .todense()) on the encoded results to create a dense NumPy array:
+
+import cupy as cp
+import cudf
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import roc_auc_score, classification_report, confusion_matrix
+
+# I assume diabetic_data is already in a Pandas DataFrame named 'diabetic_data'.
+# For example:
+# diabetic_data = pd.read_csv("/content/drive/MyDrive/diabetic_data.csv")
+
+# Convert to cuDF for GPU-based manipulations
+diabetic_data_cudf = cudf.DataFrame(diabetic_data)
+
+# List of categorical and numeric columns
+categorical_cols = ['race', 'gender', 'age', 'change', 'diabetesMed', 'insulin']
+numeric_cols = ['time_in_hospital', 'num_lab_procedures', 'num_procedures', 'num_medications',
+                'number_outpatient', 'number_emergency', 'number_inpatient', 'number_diagnoses']
+
+# OneHotEncoder without 'sparse=False' (for older scikit-learn)
+ohe = OneHotEncoder(handle_unknown='ignore')
+encoded_cats_sparse = ohe.fit_transform(diabetic_data_cudf[categorical_cols].to_pandas())
+
+# Convert the sparse output to a dense NumPy array
+encoded_cats_array = encoded_cats_sparse.toarray()
+
+# Build a cuDF DataFrame of the encoded columns
+encoded_cats_df_cudf = cudf.DataFrame(
+    encoded_cats_array,
+    columns=ohe.get_feature_names_out(categorical_cols)
+)
+
+# Drop original categorical columns, then concat the one-hot columns
+diabetic_data_cudf.drop(columns=categorical_cols, inplace=True)
+diabetic_data_cudf = cudf.concat([diabetic_data_cudf, encoded_cats_df_cudf], axis=1)
+
+# Scale numeric columns
+scaler = StandardScaler()
+scaled_numeric = scaler.fit_transform(diabetic_data_cudf[numeric_cols].to_pandas())
+scaled_numeric_cudf = cudf.DataFrame(scaled_numeric, columns=numeric_cols)
+
+# Replace original numeric columns with scaled data
+diabetic_data_cudf[numeric_cols] = scaled_numeric_cudf[numeric_cols]
+
+# Separate features (X) and target (y)
+X_cudf = diabetic_data_cudf.drop(columns=['readmitted'])
+y_cudf = diabetic_data_cudf['readmitted']
+
+# Convert cuDF to Pandas for scikit-learn
+X = X_cudf.to_pandas()
+y = y_cudf.to_pandas()
+
+# Train/test split
+X_train, X_test, y_train, y_test = train_test_split(X, y,
+                                                    test_size=0.2,
+                                                    stratify=y,
+                                                    random_state=42)
+
+# Logistic Regression in scikit-learn (CPU-based)
+log_reg = LogisticRegression(max_iter=1000, class_weight='balanced', solver='lbfgs')
+log_reg.fit(X_train, y_train)
+
+# Predictions
+y_pred = log_reg.predict(X_test)
+y_pred_prob = log_reg.predict_proba(X_test)  # shape: (rows, #classes)
+
+# Confusion matrix and classification report
+conf_matrix = confusion_matrix(y_test, y_pred)
+class_report = classification_report(y_test, y_pred)
+
+# For multi-class, set multi_class='ovr' or 'ovo' as needed
+roc_auc = roc_auc_score(y_test, y_pred_prob, multi_class='ovr')
+
+print("Confusion Matrix:\n", conf_matrix)
+print("\nClassification Report:\n", class_report)
+print("ROC-AUC Score:", roc_auc)
+
+If you still see issues, confirm your scikit-learn version in Colab using:
+!pip show scikit-learn
+
+…and upgrade if needed:
+!pip install -U scikit-learn
+
+This ensures OneHotEncoder supports the latest parameters. Otherwise, the snippet above uses .toarray() to manually convert the encoder’s default sparse output into a dense array.
+
+
+
+# # ✅ Load Data
+# diabetic_data = pd.read_csv('/content/drive/MyDrive/diabetic_data.csv')
+# ids_mapping = pd.read_csv('/content/drive/MyDrive/IDs_mapping.csv')
+
+
+# # ✅ Merge datasets on 'admission_type_id'
+# diabetic_data = diabetic_data.merge(ids_mapping, how="left", on="admission_type_id")
+
+# # ✅ Drop Unnecessary Columns
+# diabetic_data.drop(columns=['weight', 'max_glu_serum', 'A1Cresult', 'medical_specialty', 'payer_code', 
+#                             'encounter_id', 'patient_nbr', 'description'], inplace=True)
+
+# # ✅ Fill Missing Values
+# for col in ['race', 'diag_1', 'diag_2', 'diag_3']:
+#     diabetic_data[col] = diabetic_data[col].fillna('Unknown')
+
+# # ✅ Convert 'readmitted' to numerical categories (Multi-Class Classification)
+# diabetic_data['readmitted'] = diabetic_data['readmitted'].map({'NO': 0, '>30': 1, '<30': 2})
+
+# # ✅ Handle Categorical Variables (One-Hot Encoding)
+# categorical_cols = ['race', 'gender', 'age', 'change', 'diabetesMed', 'insulin']
+# ohe = OneHotEncoder(handle_unknown='ignore')
+# encoded_cats = ohe.fit_transform(diabetic_data[categorical_cols])
+
+# # ✅ Convert to cuDF DataFrame
+# encoded_cats_df = cudf.DataFrame(encoded_cats.toarray(), columns=ohe.get_feature_names_out(categorical_cols))
+
+# # ✅ Drop original categorical columns and merge encoded data
+# diabetic_data.drop(columns=categorical_cols, inplace=True)
+# diabetic_data = cudf.concat([diabetic_data, encoded_cats_df], axis=1)
+
+# # ✅ Scale Numeric Features
+# numeric_cols = ['time_in_hospital', 'num_lab_procedures', 'num_procedures', 'num_medications',
+#                 'number_outpatient', 'number_emergency', 'number_inpatient', 'number_diagnoses']
+# scaler = StandardScaler()
+# diabetic_data[numeric_cols] = scaler.fit_transform(diabetic_data[numeric_cols])
+
+# # ✅ Convert to GPU cuDF DataFrame
+# X = diabetic_data.drop(columns=['readmitted'])
+# y = diabetic_data['readmitted']
+
+# # ✅ Train/Test Split (STAYS ON GPU)
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
+
+# # ✅ Train Logistic Regression **ON GPU**
+# log_reg = LogisticRegression(max_iter=1000)
+# log_reg.fit(X_train, y_train)
+
+# # ✅ Predict on Test Data (ON GPU)
+# y_pred = log_reg.predict(X_test)
+# y_pred_prob = log_reg.predict_proba(X_test)
+
+# # ✅ Convert Predictions Back to CPU for Evaluation
+# y_test_cpu = y_test.to_pandas()
+# y_pred_cpu = y_pred.to_pandas()
+# y_pred_prob_cpu = y_pred_prob.to_pandas()
+
+# # ✅ Evaluation Metrics
+# conf_matrix = confusion_matrix(y_test_cpu, y_pred_cpu)
+# class_report = classification_report(y_test_cpu, y_pred_cpu)
+# roc_auc = roc_auc_score(y_test_cpu, y_pred_prob_cpu, multi_class='ovr')
+
+# print("✅ GPU ACCELERATED RESULTS")
+# print("Confusion Matrix:\n", conf_matrix)
+# print("\nClassification Report:\n", class_report)
+# print("ROC-AUC Score:", roc_auc)
+
+
+
+# ✅ Import Libraries
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
+
+# ✅ Ensure GPU Usage
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Using device: {device}")
+
+# ✅ Check if GPU is available
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Using device: {device}")
+
+# ✅ Load Data
+diabetic_data = pd.read_csv('/content/drive/MyDrive/diabetic_data.csv')
+ids_mapping = pd.read_csv('/content/drive/MyDrive/IDs_mapping.csv')
+
+# Check data types
+diabetic_data_info = diabetic_data.dtypes
+ids_mapping_info = ids_mapping.dtypes
+
+# Display data types
+diabetic_data_info, ids_mapping_info
+
+
+
+
+
+# ✅ Import Libraries
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
+
+# ✅ Ensure GPU Usage
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"Using device: {device}")
+
+
+# ✅ Load Data
+diabetic_data = pd.read_csv('/content/drive/MyDrive/diabetic_data.csv')
+ids_mapping = pd.read_csv('/content/drive/MyDrive/IDs_mapping.csv')
+
+
+
+# ✅ Merge datasets on 'admission_type_id'
+diabetic_data = diabetic_data.merge(ids_mapping, how="left", on="admission_type_id")
+
+# ✅ Drop Unnecessary Columns
+diabetic_data.drop(columns=['weight', 'max_glu_serum', 'A1Cresult', 'medical_specialty', 'payer_code', 
+                            'encounter_id', 'patient_nbr', 'description'], inplace=True)
+
+# ✅ Fill Missing Values
+for col in ['race', 'diag_1', 'diag_2', 'diag_3']:
+    diabetic_data[col] = diabetic_data[col].fillna('Unknown')
+
+# ✅ Convert 'readmitted' to numerical categories (Multi-Class Classification)
+diabetic_data['readmitted'] = diabetic_data['readmitted'].map({'NO': 0, '>30': 1, '<30': 2})
+
+# ✅ Handle Categorical Variables (One-Hot Encoding)
+categorical_cols = ['race', 'gender', 'age', 'change', 'diabetesMed', 'insulin']
+one_hot_encoder = OneHotEncoder(sparse=False, handle_unknown='ignore')
+encoded_cats = one_hot_encoder.fit_transform(diabetic_data[categorical_cols])
+encoded_cats_df = pd.DataFrame(encoded_cats, columns=one_hot_encoder.get_feature_names_out(categorical_cols))
+
+# ✅ Drop original categorical columns and merge encoded data
+diabetic_data.drop(columns=categorical_cols, inplace=True)
+diabetic_data = pd.concat([diabetic_data, encoded_cats_df], axis=1)
+
+# ✅ Scale Numeric Features
+numeric_cols = ['time_in_hospital', 'num_lab_procedures', 'num_procedures', 'num_medications',
+                'number_outpatient', 'number_emergency', 'number_inpatient', 'number_diagnoses']
+scaler = StandardScaler()
+diabetic_data[numeric_cols] = scaler.fit_transform(diabetic_data[numeric_cols])
+
+# ✅ Convert to PyTorch Tensors and Move to GPU
+X = torch.tensor(diabetic_data.drop(columns=['readmitted']).values, dtype=torch.float32).to(device)
+y = torch.tensor(diabetic_data['readmitted'].values, dtype=torch.long).to(device)
+
+# ✅ Split Data into Train & Test Sets
+X_train, X_test, y_train, y_test = train_test_split(X.cpu().numpy(), y.cpu().numpy(), test_size=0.2, stratify=y.cpu().numpy(), random_state=42)
+
+X_train, X_test = torch.tensor(X_train, dtype=torch.float32).to(device), torch.tensor(X_test, dtype=torch.float32).to(device)
+y_train, y_test = torch.tensor(y_train, dtype=torch.long).to(device), torch.tensor(y_test, dtype=torch.long).to(device)
+
+# ✅ Define PyTorch Logistic Regression Model
+class LogisticRegressionModel(nn.Module):
+    def __init__(self, input_size, num_classes):
+        super(LogisticRegressionModel, self).__init__()
+        self.linear = nn.Linear(input_size, num_classes)
+
+    def forward(self, x):
+        return self.linear(x)
+
+# ✅ Model Initialization
+input_size = X_train.shape[1]
+num_classes = 3  # Multi-class classification (0, 1, 2)
+model = LogisticRegressionModel(input_size, num_classes).to(device)
+
+# ✅ Define Loss & Optimizer
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(), lr=0.01)
+
+# ✅ Training Loop
+epochs = 100
+for epoch in range(epochs):
+    optimizer.zero_grad()
+    outputs = model(X_train)
+    loss = criterion(outputs, y_train)
+    loss.backward()
+    optimizer.step()
+    
+    if (epoch + 1) % 10 == 0:
+        print(f"Epoch [{epoch+1}/{epochs}], Loss: {loss.item():.4f}")
+
+# ✅ Predict on Test Data
+with torch.no_grad():
+    y_pred_logits = model(X_test)
+    y_pred = torch.argmax(y_pred_logits, dim=1)
+
+# ✅ Convert Predictions Back to CPU for Evaluation
+y_test_cpu = y_test.cpu().numpy()
+y_pred_cpu = y_pred.cpu().numpy()
+
+# ✅ Evaluation Metrics
+conf_matrix = confusion_matrix(y_test_cpu, y_pred_cpu)
+class_report = classification_report(y_test_cpu, y_pred_cpu)
+roc_auc = roc_auc_score(y_test_cpu, nn.functional.softmax(y_pred_logits, dim=1).cpu().numpy(), multi_class='ovr')
+
+print("Confusion Matrix:\n", conf_matrix)
+print("Classification Report:\n", class_report)
+print("ROC-AUC Score:", roc_auc)
+
+
+# ✅ Import Libraries
+import cudf
+import cupy as cp
+from cuml.model_selection import train_test_split
+from cuml.preprocessing import StandardScaler, OneHotEncoder
+from cuml.linear_model import LogisticRegression
+from cuml.metrics import roc_auc_score
+from sklearn.metrics import classification_report, confusion_matrix
+
+# ✅ Load Data
+diabetic_data = pd.read_csv('/content/drive/MyDrive/diabetic_data.csv')
+ids_mapping = pd.read_csv('/content/drive/MyDrive/IDs_mapping.csv')
+
+# ✅ Merge datasets on 'admission_type_id'
+diabetic_data = diabetic_data.merge(ids_mapping, how="left", on="admission_type_id")
+
+# ✅ Drop Unnecessary Columns
+diabetic_data.drop(columns=['weight', 'max_glu_serum', 'A1Cresult', 'medical_specialty', 'payer_code', 
+                            'encounter_id', 'patient_nbr', 'description'], inplace=True)
+
+# ✅ Fill Missing Values
+for col in ['race', 'diag_1', 'diag_2', 'diag_3']:
+    diabetic_data[col] = diabetic_data[col].fillna('Unknown')
+
+# ✅ Convert 'readmitted' to numerical categories (Multi-Class Classification)
+diabetic_data['readmitted'] = diabetic_data['readmitted'].map({'NO': 0, '>30': 1, '<30': 2})
+
+# ✅ Handle Categorical Variables (One-Hot Encoding)
+categorical_cols = ['race', 'gender', 'age', 'change', 'diabetesMed', 'insulin']
+ohe = OneHotEncoder(handle_unknown='ignore')
+encoded_cats = ohe.fit_transform(diabetic_data[categorical_cols])
+
+# ✅ Convert to cuDF DataFrame
+encoded_cats_df = cudf.DataFrame(encoded_cats.toarray(), columns=ohe.get_feature_names_out(categorical_cols))
+
+# ✅ Drop original categorical columns and merge encoded data
+diabetic_data.drop(columns=categorical_cols, inplace=True)
+diabetic_data = cudf.concat([diabetic_data, encoded_cats_df], axis=1)
+
+# ✅ Scale Numeric Features
+numeric_cols = ['time_in_hospital', 'num_lab_procedures', 'num_procedures', 'num_medications',
+                'number_outpatient', 'number_emergency', 'number_inpatient', 'number_diagnoses']
+scaler = StandardScaler()
+diabetic_data[numeric_cols] = scaler.fit_transform(diabetic_data[numeric_cols])
+
+# ✅ Convert to GPU cuDF DataFrame
+X = diabetic_data.drop(columns=['readmitted'])
+y = diabetic_data['readmitted']
+
+# ✅ Train/Test Split (STAYS ON GPU)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
+
+# ✅ Train Logistic Regression **ON GPU**
+log_reg = LogisticRegression(max_iter=1000)
+log_reg.fit(X_train, y_train)
+
+# ✅ Predict on Test Data (ON GPU)
+y_pred = log_reg.predict(X_test)
+y_pred_prob = log_reg.predict_proba(X_test)
+
+# ✅ Convert Predictions Back to CPU for Evaluation
+y_test_cpu = y_test.to_pandas()
+y_pred_cpu = y_pred.to_pandas()
+y_pred_prob_cpu = y_pred_prob.to_pandas()
+
+# ✅ Evaluation Metrics
+conf_matrix = confusion_matrix(y_test_cpu, y_pred_cpu)
+class_report = classification_report(y_test_cpu, y_pred_cpu)
+roc_auc = roc_auc_score(y_test_cpu, y_pred_prob_cpu, multi_class='ovr')
+
+print("✅ GPU ACCELERATED RESULTS")
+print("Confusion Matrix:\n", conf_matrix)
+print("\nClassification Report:\n", class_report)
+print("ROC-AUC Score:", roc_auc)

@@ -1,0 +1,4 @@
+[ZoneTransfer]
+ZoneId=3
+ReferrerUrl=https://sso.canvaslms.com/post_message_forwarding?rev=59677caad5-de8233d392aa15f4&token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJwYXJlbnRfZG9tYWluIjoiZGlnaXRhbGNhbXB1cy5pbnN0cnVjdHVyZS5jb20ifQ.4YSsiaTEDXF7b33TJnvqbRGsHKLVe5gWIfnl6yeM_nhyXDcdsalcMKYBxrCO8vC3EtqZFfYsLBky3RJfoVwo1A
+HostUrl=https://du11hjcvx0uqb.cloudfront.net/dist/javascripts/lti_post_message_forwarding-59677caad5.js

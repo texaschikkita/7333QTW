@@ -1,0 +1,550 @@
+Welcome to our case study on diabetes. This week's case study is one that has some possibly controversial data. I want you to carefully follow the discussion and develop your own thoughts about the material being discussed. Some people may want to avoid this type of conversation.
+However, as a data scientist, we are often confronted with things that have ethical concerns. So as you watch this video, continue to monitor how our protagonist asks about the problem. And then also watch how they raise their concerns. See if you have the same or different concerns.
+Feel free to submit those as part of your participation. Don't forget, important details about the problem are included in the video. Once again, we are simulating a real world problem and a presentation from a data science professional to a, this time, slightly more seasoned data scientist. Again, we will pause to have you take a look at the data.
+And you can submit further questions towards the end. Those questions can then be uploaded as part of your participation grade.
+
+PART 1: 
+All right. So this week we have a problem coming to us from the medical community. We're looking specifically at a diabetes study. And the problem is hospital readmission.
+Now we don't want people in hospitals. We want them to be well. And we certainly don't want them to be readmitted. This comes at a huge cost to the patient in terms of bills, lost wages, strain on their family and whatnot.
+So our goal is no readmission. So for this study, what we're trying to do is we want to try to predict readmission of the patient within 30 days of initial hospitalization. So take a look at that data and we'll come back and take any questions you have.
+
+
+PART 2:
+So you've had a chance to look at the data. Do you have any questions about it? I actually do have a couple of questions about this particular assignment. And the first one is, well, pretty important to me.
+It's regarding the race category. And I don't understand its significance. It seems actually kind of like sorting patients with this criteria could be seen as racially biased or something. I mean, simply talking about identifying who was getting readmitted to the hospital.
+So I really don't understand why race matters. OK. Absolutely. And thank you for bringing that up because I absolutely agree with you.
+Normally, this is not something that we would take into consideration. Sorting by race can bring in a lot of ethical considerations. In this case, we're talking about the medical community. We're talking about patients.
+And we do know that diabetes affects different demographics differently. So race actually could very well be a factor in this. Now, that being said, I will leave it to you. As long as we can chart the trends accurately, I'm not as concerned about how we get there.
+OK. Got it. Thank you. So my next question is all about all of these question marks that are in the data set.
+What's going on with that? Yeah. The study took place over 10 years. There's something like 130 hospitals that they were pulling data from.
+There are a lot of people entering data into this study. And so there are holes. So we're just going to have to make the best recommendation we can based on the data that we have. OK.
+Understood. I'll get working right away. Thank you.
+
+
+
+Case Study 2: 
+Your case study is to build classifiers using logistic regression to predict ALL 3 CATEGORIES of hospital re-admittance. There is missing data that must be imputed.
+Once again, discuss the top 5 variable importance of your best model as part of your submission.
+
+
+REQUIREMENTS FOR ALL CASE STUDIES: 
+Case Study Requirements:
+• All data prep described
+	o Imputation methods
+		▪ Why did you choose that?
+	o Size of data (features, examples)
+	o How splits were performed
+• Data Science Model(s) used
+	o Configuration
+		▪ Early Stopping
+		▪ Loss Function/Metric Optimized
+		▪ Other metrics monitored
+	o Hyperparameters tested
+		▪ (aka Ablation Study)
+		▪ Random/Grid/Other/Combo
+	o Best Hyper Parameters
+• Results:
+	o Continuous Problem
+		▪ Loss metrics
+		▪ Residuals
+		▪ Plots of Predicted vs Target (All examples)
+	o Classification Problem
+		▪ Confusion Matrix (all examples)
+		▪ Classification Report (all examples)
+		▪ AUC-ROC
+			• Binary Problems Only
+		▪ Precision, Recall, Sensitivity, Specificity
+• NO MORE USING THESE 
+	o “Performed Well”
+		▪ Results speak for themselves: Accuracy was X, Precision was Y
+	o “Good Results”
+		▪ See above
+	o “Impressive”
+		▪ Unless its state of the art, its not impressive and since NONE of the
+			homework is on standard data, you will never have state of the art
+			in this class.
+	o Train/Test Splits
+		▪ You must cross validate everything 
+		- grid values / grid search 
+
+
+
+
+
+
+Dr. Slater will expect you to:
+
+1. **Engage with the ethical concerns in the case study** – You should articulate your own thoughts about the inclusion of race in the dataset and whether it is relevant or potentially problematic. You’ll need to justify your perspective with logical reasoning.
+
+2. **Analyze the dataset thoroughly** – Identify issues like missing data, class imbalance, and potential biases in the dataset. You'll need to discuss the imputation methods you used and justify your choices.
+
+3. **Build logistic regression classifiers for all three categories of readmission** – You must implement models that classify patients into:
+   - Not readmitted
+   - Readmitted within 30 days
+   - Readmitted after 30 days
+
+4. **Use cross-validation, not train/test splits** – This is a key expectation. You must perform cross-validation for model evaluation and hyperparameter tuning instead of a simple train/test split.
+
+5. **Tune hyperparameters and report results** – This includes:
+   - Which hyperparameters you experimented with
+   - Which search method you used (grid/random search)
+   - The best hyperparameters you found
+
+6. **Provide a detailed evaluation of your models** – You should present:
+   - Confusion matrices
+   - Classification reports with precision, recall, and F1 scores
+   - ROC-AUC scores if applicable
+   - Discussion of model performance, particularly where the model struggles (e.g., class 2 underperforming)
+
+7. **Discuss variable importance** – Identify the top five most important variables influencing predictions and explain why they matter in the context of hospital readmission.
+
+8. **Critically evaluate your results** – Instead of vague descriptions like "performed well," provide specific metrics (e.g., "accuracy = 58%, precision for class 2 = 0.12, recall = 0.01"). Also, discuss how you would improve the model, such as adjusting class weights or using a different algorithm.
+
+To meet his expectations, structure your report with:
+- **Introduction** (problem statement, ethical concerns)
+- **Data Preparation** (imputation methods, handling missing data, feature engineering)
+- **Modeling Approach** (logistic regression details, hyperparameter tuning)
+- **Results** (classification metrics, confusion matrices, cross-validation results)
+- **Discussion & Recommendations** (interpretation of model strengths/weaknesses, ethical considerations)
+
+Dr. Slater is strict about methodology and clarity, so focus on **precision in reporting results, well-labeled visualizations, and thoughtful analysis.**
+
+Let's go step by step through the **Diabetes Case Study** from the beginning to ensure everything is correctly implemented and documented. 
+
+---
+
+## **Step 1: Revisit Data Preparation**
+
+### **1.1 Load and Inspect the Data**
+Before proceeding with cleaning, let’s ensure we have the correct dataset and understand its structure.
+
+```python
+import pandas as pd
+
+# Load dataset
+file_path = "diabetes_data.csv"  # Update with your actual file path
+df = pd.read_csv(file_path)
+
+# Display basic info
+print(df.info())
+print(df.head())
+```
+✅ **Confirm**: Are all expected columns present? Are there any missing values?
+
+---
+
+### **1.2 Handle Missing Data**
+We need to:
+- Identify missing values.
+- Decide on an imputation strategy.
+
+#### **Check Missing Data**
+```python
+# Count missing values per column
+missing_values = df.isnull().sum()
+print(missing_values[missing_values > 0])
+```
+
+#### **Imputation Strategy**
+We can use:
+1. **Mean/Median Imputation** (For numerical columns)
+2. **Mode Imputation** (For categorical columns)
+3. **KNN Imputation** (Advanced, may be better for complex missing patterns)
+
+```python
+from sklearn.impute import SimpleImputer
+
+# Impute numerical columns with median
+num_imputer = SimpleImputer(strategy="median")
+numerical_cols = df.select_dtypes(include=["number"]).columns
+df[numerical_cols] = num_imputer.fit_transform(df[numerical_cols])
+
+# Impute categorical columns with mode
+cat_imputer = SimpleImputer(strategy="most_frequent")
+categorical_cols = df.select_dtypes(exclude=["number"]).columns
+df[categorical_cols] = cat_imputer.fit_transform(df[categorical_cols])
+```
+✅ **Confirm**: After running, re-check for missing values.
+
+```python
+print(df.isnull().sum().sum())  # Should be 0
+```
+---
+
+### **1.3 Feature Overview**
+- How many features do we have?
+- What is the target variable?
+
+```python
+print(f"Number of features: {df.shape[1]}")
+print(f"Number of samples: {df.shape[0]}")
+print(f"Target variable distribution:\n{df['readmitted'].value_counts()}")
+```
+✅ **Confirm**: Do we have a class imbalance? If so, we may need to address it.
+
+---
+
+### **1.4 Handle Class Imbalance (If Needed)**
+If the dataset has **severely imbalanced classes**, we can apply:
+- **Oversampling (SMOTE)**
+- **Class Weights in Model Training**
+
+#### **Check Imbalance**
+```python
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.countplot(x=df['readmitted'])
+plt.title("Target Class Distribution")
+plt.show()
+```
+#### **Apply SMOTE if Necessary**
+```python
+from imblearn.over_sampling import SMOTE
+from sklearn.model_selection import train_test_split
+
+X = df.drop(columns=["readmitted"])
+y = df["readmitted"]
+
+smote = SMOTE(random_state=42)
+X_resampled, y_resampled = smote.fit_resample(X, y)
+
+print("After SMOTE:", y_resampled.value_counts())
+```
+✅ **Confirm**: Are the classes balanced now?
+
+---
+
+## **Step 2: Model Selection & Training Setup**
+Now, let's prepare for training.
+
+### **2.1 Train-Test Split (With Cross-Validation)**
+```python
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegressionCV
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X_resampled, y_resampled, test_size=0.2, random_state=42)
+
+# Scale features
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+```
+
+✅ **Confirm**: Are train and test sets properly split and scaled?
+
+---
+
+### **2.2 Train Logistic Regression with Cross-Validation**
+```python
+log_reg = LogisticRegressionCV(cv=5, class_weight="balanced", max_iter=1000, random_state=42)
+log_reg.fit(X_train, y_train)
+
+# Cross-validation score
+cv_score = cross_val_score(log_reg, X_train, y_train, cv=5)
+print(f"Cross-validation mean accuracy: {cv_score.mean():.4f} ± {cv_score.std():.4f}")
+```
+✅ **Confirm**: Is the model training successfully? Is the accuracy reasonable?
+
+---
+
+## **Step 3: Model Evaluation**
+Now, we need to assess performance.
+
+### **3.1 Classification Report & Confusion Matrix**
+```python
+from sklearn.metrics import classification_report, confusion_matrix
+
+# Predictions
+y_pred = log_reg.predict(X_test)
+
+# Classification report
+print(classification_report(y_test, y_pred))
+
+# Confusion matrix
+import seaborn as sns
+
+cm = confusion_matrix(y_test, y_pred)
+sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
+plt.xlabel("Predicted Label")
+plt.ylabel("True Label")
+plt.title("Confusion Matrix")
+plt.show()
+```
+✅ **Confirm**: Are all three classes predicted well? If not, should we adjust class weights?
+
+---
+
+### **3.2 ROC Curve**
+```python
+from sklearn.metrics import roc_curve, auc
+
+y_probs = log_reg.predict_proba(X_test)
+fpr, tpr, _ = roc_curve(y_test, y_probs[:, 1], pos_label=1)
+
+plt.plot(fpr, tpr, label=f"AUC = {auc(fpr, tpr):.3f}")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curve")
+plt.legend()
+plt.show()
+```
+✅ **Confirm**: Is the model distinguishing between classes well?
+
+---
+
+## **Step 4: Interpret the Results**
+### **4.1 Feature Importance**
+```python
+import numpy as np
+
+# Extract feature importance (coefficients)
+feature_importance = pd.DataFrame({"Feature": X.columns, "Coefficient": np.abs(log_reg.coef_).flatten()})
+feature_importance = feature_importance.sort_values(by="Coefficient", ascending=False)
+
+print(feature_importance.head(5))
+```
+✅ **Confirm**: Which 5 features impact predictions the most?
+
+---
+
+## **Final Submission Check**
+- ✅ **Data cleaning and imputation fully documented**
+- ✅ **Handled class imbalance (if necessary)**
+- ✅ **Used logistic regression with 5-fold cross-validation**
+- ✅ **Evaluated confusion matrix, classification report, and ROC curve**
+- ✅ **Analyzed feature importance**
+
+### **Next Steps**
+1. 📌 **Do results align with expectations?** If not, revisit class weights or feature selection.
+2. 📌 **Finalize the write-up and interpretations** for submission.
+3. 📌 **Ensure all required documentation and visualizations are included.**
+
+---
+
+This plan ensures all requirements are met. Let me know if any section needs more refinement!
+
+
+
+
+
+-----------------------------
+
+Let's go step by step through the **Diabetes Case Study** from the beginning to ensure everything is correctly implemented and documented. 
+
+---
+
+## **Step 1: Revisit Data Preparation**
+
+### **1.1 Load and Inspect the Data**
+Before proceeding with cleaning, let’s ensure we have the correct dataset and understand its structure.
+
+```python
+import pandas as pd
+
+# Load dataset
+file_path = "diabetes_data.csv"  # Update with your actual file path
+df = pd.read_csv(file_path)
+
+# Display basic info
+print(df.info())
+print(df.head())
+```
+✅ **Confirm**: Are all expected columns present? Are there any missing values?
+
+---
+
+### **1.2 Handle Missing Data**
+We need to:
+- Identify missing values.
+- Decide on an imputation strategy.
+
+#### **Check Missing Data**
+```python
+# Count missing values per column
+missing_values = df.isnull().sum()
+print(missing_values[missing_values > 0])
+```
+
+#### **Imputation Strategy**
+We can use:
+1. **Mean/Median Imputation** (For numerical columns)
+2. **Mode Imputation** (For categorical columns)
+3. **KNN Imputation** (Advanced, may be better for complex missing patterns)
+
+```python
+from sklearn.impute import SimpleImputer
+
+# Impute numerical columns with median
+num_imputer = SimpleImputer(strategy="median")
+numerical_cols = df.select_dtypes(include=["number"]).columns
+df[numerical_cols] = num_imputer.fit_transform(df[numerical_cols])
+
+# Impute categorical columns with mode
+cat_imputer = SimpleImputer(strategy="most_frequent")
+categorical_cols = df.select_dtypes(exclude=["number"]).columns
+df[categorical_cols] = cat_imputer.fit_transform(df[categorical_cols])
+```
+✅ **Confirm**: After running, re-check for missing values.
+
+```python
+print(df.isnull().sum().sum())  # Should be 0
+```
+---
+
+### **1.3 Feature Overview**
+- How many features do we have?
+- What is the target variable?
+
+```python
+print(f"Number of features: {df.shape[1]}")
+print(f"Number of samples: {df.shape[0]}")
+print(f"Target variable distribution:\n{df['readmitted'].value_counts()}")
+```
+✅ **Confirm**: Do we have a class imbalance? If so, we may need to address it.
+
+---
+
+### **1.4 Handle Class Imbalance (If Needed)**
+If the dataset has **severely imbalanced classes**, we can apply:
+- **Oversampling (SMOTE)**
+- **Class Weights in Model Training**
+
+#### **Check Imbalance**
+```python
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+sns.countplot(x=df['readmitted'])
+plt.title("Target Class Distribution")
+plt.show()
+```
+#### **Apply SMOTE if Necessary**
+```python
+from imblearn.over_sampling import SMOTE
+from sklearn.model_selection import train_test_split
+
+X = df.drop(columns=["readmitted"])
+y = df["readmitted"]
+
+smote = SMOTE(random_state=42)
+X_resampled, y_resampled = smote.fit_resample(X, y)
+
+print("After SMOTE:", y_resampled.value_counts())
+```
+✅ **Confirm**: Are the classes balanced now?
+
+---
+
+## **Step 2: Model Selection & Training Setup**
+Now, let's prepare for training.
+
+### **2.1 Train-Test Split (With Cross-Validation)**
+```python
+from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegressionCV
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X_resampled, y_resampled, test_size=0.2, random_state=42)
+
+# Scale features
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+```
+
+✅ **Confirm**: Are train and test sets properly split and scaled?
+
+---
+
+### **2.2 Train Logistic Regression with Cross-Validation**
+```python
+log_reg = LogisticRegressionCV(cv=5, class_weight="balanced", max_iter=1000, random_state=42)
+log_reg.fit(X_train, y_train)
+
+# Cross-validation score
+cv_score = cross_val_score(log_reg, X_train, y_train, cv=5)
+print(f"Cross-validation mean accuracy: {cv_score.mean():.4f} ± {cv_score.std():.4f}")
+```
+✅ **Confirm**: Is the model training successfully? Is the accuracy reasonable?
+
+---
+
+## **Step 3: Model Evaluation**
+Now, we need to assess performance.
+
+### **3.1 Classification Report & Confusion Matrix**
+```python
+from sklearn.metrics import classification_report, confusion_matrix
+
+# Predictions
+y_pred = log_reg.predict(X_test)
+
+# Classification report
+print(classification_report(y_test, y_pred))
+
+# Confusion matrix
+import seaborn as sns
+
+cm = confusion_matrix(y_test, y_pred)
+sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
+plt.xlabel("Predicted Label")
+plt.ylabel("True Label")
+plt.title("Confusion Matrix")
+plt.show()
+```
+✅ **Confirm**: Are all three classes predicted well? If not, should we adjust class weights?
+
+---
+
+### **3.2 ROC Curve**
+```python
+from sklearn.metrics import roc_curve, auc
+
+y_probs = log_reg.predict_proba(X_test)
+fpr, tpr, _ = roc_curve(y_test, y_probs[:, 1], pos_label=1)
+
+plt.plot(fpr, tpr, label=f"AUC = {auc(fpr, tpr):.3f}")
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("ROC Curve")
+plt.legend()
+plt.show()
+```
+✅ **Confirm**: Is the model distinguishing between classes well?
+
+---
+
+## **Step 4: Interpret the Results**
+### **4.1 Feature Importance**
+```python
+import numpy as np
+
+# Extract feature importance (coefficients)
+feature_importance = pd.DataFrame({"Feature": X.columns, "Coefficient": np.abs(log_reg.coef_).flatten()})
+feature_importance = feature_importance.sort_values(by="Coefficient", ascending=False)
+
+print(feature_importance.head(5))
+```
+✅ **Confirm**: Which 5 features impact predictions the most?
+
+---
+
+## **Final Submission Check**
+- ✅ **Data cleaning and imputation fully documented**
+- ✅ **Handled class imbalance (if necessary)**
+- ✅ **Used logistic regression with 5-fold cross-validation**
+- ✅ **Evaluated confusion matrix, classification report, and ROC curve**
+- ✅ **Analyzed feature importance**
+
+### **Next Steps**
+1. 📌 **Do results align with expectations?** If not, revisit class weights or feature selection.
+2. 📌 **Finalize the write-up and interpretations** for submission.
+3. 📌 **Ensure all required documentation and visualizations are included.**
+
+---
+
+

@@ -1,0 +1,165 @@
+import pandas as pd
+
+# Load the datasets
+diabetic_data_path = r"D:\7333\Case Study 2\diabetic_data.csv"
+ids_mapping_path = r"D:\7333\Case Study 2\IDs_mapping.csv"
+
+
+diabetic_data = pd.read_csv(diabetic_data_path)
+ids_mapping = pd.read_csv(ids_mapping_path)
+
+# Display basic information about the datasets
+diabetic_data_info = diabetic_data.info()
+ids_mapping_info = ids_mapping.info()
+
+# Display the first few rows of each dataset
+diabetic_data_head = diabetic_data.head()
+ids_mapping_head = ids_mapping.head()
+
+diabetic_data_info, diabetic_data_head, ids_mapping_info, ids_mapping_head
+
+
+output: 
+	<class 'pandas.core.frame.DataFrame'>
+	RangeIndex: 101766 entries, 0 to 101765
+	Data columns (total 50 columns):
+	 #   Column                    Non-Null Count   Dtype 
+	---  ------                    --------------   ----- 
+	 0   encounter_id              101766 non-null  int64 
+	 1   patient_nbr               101766 non-null  int64 
+	 2   race                      101766 non-null  object
+	 3   gender                    101766 non-null  object
+	 4   age                       101766 non-null  object
+	 5   weight                    101766 non-null  object
+	 6   admission_type_id         101766 non-null  int64 
+	 7   discharge_disposition_id  101766 non-null  int64 
+	 8   admission_source_id       101766 non-null  int64 
+	 9   time_in_hospital          101766 non-null  int64 
+	 10  payer_code                101766 non-null  object
+	 11  medical_specialty         101766 non-null  object
+	 12  num_lab_procedures        101766 non-null  int64 
+	 13  num_procedures            101766 non-null  int64 
+	 14  num_medications           101766 non-null  int64 
+	 15  number_outpatient         101766 non-null  int64 
+	 16  number_emergency          101766 non-null  int64 
+	 17  number_inpatient          101766 non-null  int64 
+	 18  diag_1                    101766 non-null  object
+	 19  diag_2                    101766 non-null  object
+	 20  diag_3                    101766 non-null  object
+	 21  number_diagnoses          101766 non-null  int64 
+	 22  max_glu_serum             5346 non-null    object
+	 23  A1Cresult                 17018 non-null   object
+	 24  metformin                 101766 non-null  object
+	 25  repaglinide               101766 non-null  object
+	 26  nateglinide               101766 non-null  object
+	 27  chlorpropamide            101766 non-null  object
+	 28  glimepiride               101766 non-null  object
+	 29  acetohexamide             101766 non-null  object
+	 30  glipizide                 101766 non-null  object
+	 31  glyburide                 101766 non-null  object
+	 32  tolbutamide               101766 non-null  object
+	 33  pioglitazone              101766 non-null  object
+	 34  rosiglitazone             101766 non-null  object
+	 35  acarbose                  101766 non-null  object
+	 36  miglitol                  101766 non-null  object
+	 37  troglitazone              101766 non-null  object
+	 38  tolazamide                101766 non-null  object
+	 39  examide                   101766 non-null  object
+	 40  citoglipton               101766 non-null  object
+	 41  insulin                   101766 non-null  object
+	 42  glyburide-metformin       101766 non-null  object
+	 43  glipizide-metformin       101766 non-null  object
+	 44  glimepiride-pioglitazone  101766 non-null  object
+	 45  metformin-rosiglitazone   101766 non-null  object
+	 46  metformin-pioglitazone    101766 non-null  object
+	 47  change                    101766 non-null  object
+	 48  diabetesMed               101766 non-null  object
+	 49  readmitted                101766 non-null  object
+	dtypes: int64(13), object(37)
+	memory usage: 38.8+ MB
+	<class 'pandas.core.frame.DataFrame'>
+	RangeIndex: 67 entries, 0 to 66
+	Data columns (total 2 columns):
+	 #   Column             Non-Null Count  Dtype 
+	---  ------             --------------  ----- 
+	 0   admission_type_id  65 non-null     object
+	 1   description        62 non-null     object
+	dtypes: object(2)
+	memory usage: 1.2+ KB
+
+	(None,
+    encounter_id  patient_nbr             race  gender      age weight  \
+ 0       2278392      8222157        Caucasian  Female   [0-10)      ?   
+ 1        149190     55629189        Caucasian  Female  [10-20)      ?   
+ 2         64410     86047875  AfricanAmerican  Female  [20-30)      ?   
+ 3        500364     82442376        Caucasian    Male  [30-40)      ?   
+ 4         16680     42519267        Caucasian    Male  [40-50)      ?   
+ 
+    admission_type_id  discharge_disposition_id  admission_source_id  \
+ 0                  6                        25                    1   
+ 1                  1                         1                    7   
+ 2                  1                         1                    7   
+ 3                  1                         1                    7   
+ 4                  1                         1                    7   
+ 
+    time_in_hospital  ... citoglipton insulin  glyburide-metformin  \
+ 0                 1  ...          No      No                   No   
+ 1                 3  ...          No      Up                   No   
+ 2                 2  ...          No      No                   No   
+ 3                 2  ...          No      Up                   No   
+ 4                 1  ...          No  Steady                   No   
+ 
+    glipizide-metformin  glimepiride-pioglitazone  metformin-rosiglitazone  \
+ 0                   No                        No                       No   
+ 1                   No                        No                       No   
+ 2                   No                        No                       No   
+ 3                   No                        No                       No   
+ 4                   No                        No                       No   
+ 
+    metformin-pioglitazone  change diabetesMed readmitted  
+ 0                      No      No          No         NO  
+ 1                      No      Ch         Yes        >30  
+ 2                      No      No         Yes         NO  
+ 3                      No      Ch         Yes         NO  
+ 4                      No      Ch         Yes         NO  
+ 
+ [5 rows x 50 columns],
+ None,
+   admission_type_id    description
+ 0                 1      Emergency
+ 1                 2         Urgent
+ 2                 3       Elective
+ 3                 4        Newborn
+ 4                 5  Not Available)
+
+
+
+
+### Summary of the Data:
+1. **Diabetic Data (`diabetic_data.csv`):**
+   - Contains **101,766** rows and **50** columns.
+   - Includes patient demographics, medical history, medications, and hospitalization details.
+   - The target variable is **"readmitted"**, which has three categories:
+     - **NO** (not readmitted)
+     - **>30** (readmitted after 30 days)
+     - **<30** (readmitted within 30 days)
+   - Several categorical features contain missing values represented by `?`.
+2. **IDs Mapping (`IDs_mapping.csv`):**
+   - Contains **67 rows** and **2 columns**.
+   - Maps **admission type IDs** to their descriptions.
+
+
+
+### Next Steps:
+1. **Data Cleaning & Preprocessing**
+   - Replace missing values (`?`) with appropriate imputation techniques.
+   - Convert categorical variables into numerical representations.
+   - Map admission type IDs to their descriptions.
+2. **Feature Engineering & Selection**
+   - Identify the most relevant variables affecting readmission.
+3. **Modeling: Logistic Regression**
+   - Build a model to classify the readmission categories.
+   - Perform hyperparameter tuning.
+4. **Evaluation**
+   - Report confusion matrices, classification reports, and AUC-ROC scores.
+   

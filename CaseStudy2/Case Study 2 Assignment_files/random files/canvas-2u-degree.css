@@ -1,0 +1,11 @@
+/* BB ally library is loading some styles on production and causing question's content to overflow outside its container.
+   Below changes are to prevent those overrides.
+*/
+
+.user_content, .mceContentBody {
+  overflow-x: auto !important;
+}
+
+wistia-transcript::part(hover-button) {
+  margin-right: 12px;
+}

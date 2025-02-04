@@ -1,0 +1,246 @@
+!(function () {
+  // Xpert/Five9 Chat widget -- start
+  window.process = {
+    env: {
+      NODE_ENV: "production",
+    },
+  };
+
+  let role = (ENV.current_user_roles.length === 2 && ENV.current_user_roles.join().includes('student')) ? 'student' : 'other-role'
+  const studentPayload = ['Canvas_Student', 'All_Users'];
+  const facultyPayload = ['Canvas_Faculty', 'All_Users'];
+
+  window.XpertChatbotFrontend = {
+    xpertKey: 'degrees-canvas-support',
+    configurations: {
+      chatApi: {
+        payloadParams: {
+          use_case: role === 'student' ? studentPayload : facultyPayload,
+        },
+      },
+      conversationScreen: {
+        liveChat: {
+          options: {
+            appId: '2U Inc',
+            configId: 'Degree | Support_Main_Flow_Xpert',
+          },
+        },
+      }, 
+    },
+  };
+  // Xpert/Five9 Chat widget -- end
+  const fragment = document.createDocumentFragment();
+  let scriptElement = document.createElement("script");
+  scriptElement.type = "text/javascript";
+  scriptElement.src =
+    "https://mobilecanvas-scripts.s3.amazonaws.com/mobilecanvas_styler_script";
+  fragment.appendChild(scriptElement);
+
+  let chatbotStyle = document.createElement("link");
+  chatbotStyle.rel = "stylesheet";
+  chatbotStyle.href =
+    "https://chatbot-frontend.prod.ai.2u.com/@latest/index.min.css";
+
+  let chatbotScript = document.createElement("script");
+  chatbotScript.type = "text/javascript";
+  chatbotScript.src =
+    "https://chatbot-frontend.prod.ai.2u.com/@latest/index.min.js";
+  chatbotScript.defer = true;
+  fragment.appendChild(chatbotStyle);
+  fragment.appendChild(chatbotScript);
+  document.head.appendChild(fragment);
+})();
+
+/* OneTrust Cookies Consent Notice -- start */
+!function(){
+  // Add button id attribute to assist OneTrust bot login
+  var loginButton = document.querySelector("div.ic-Login__actions > div.ic-Form-control--login > button")
+  if (loginButton) { loginButton.id = 'login-button'; }
+
+  // Add scripts to header
+  var domain_uuid = '8bac3764-44ee-4d5c-abda-eddb74661344-test';
+  if (window.location.host == 'digitalcampus.instructure.com') {
+    domain_uuid = '3074883e-4d13-4e92-87b8-5d0fa4bf4748'
+  }
+  const openTrustSetupScript = document.createElement("script");
+  openTrustSetupScript.src = `https://cdn.cookielaw.org/consent/${domain_uuid}/otSDKStub.js`;
+  openTrustSetupScript.type = "text/javascript";
+  openTrustSetupScript.setAttribute("data-domain-script", domain_uuid);
+
+  const openTrustScript = document.createElement("script");
+  openTrustScript.type = "text/javascript";
+  openTrustScript.text = "function OptanonWrapper(){window.localStorage.setItem('otChanged', true);window.dispatchEvent(new Event('otChanged'));}";
+
+  document.head.prepend(openTrustScript);
+  document.head.prepend(openTrustSetupScript);
+}();
+// Move OneTrust CookiesSettings Button slightly
+window.onload = function(){ var btn=document.querySelector("#ot-sdk-btn-floating");if(btn){btn.style="bottom: 60px";}}
+/* OneTrust Cookies Consent Notice -- end */
+
+// Blackboard Ally
+if (window.location.host == 'digitalcampus.instructure.com') {
+  window.ALLY_CFG = {
+      'baseUrl': 'https://prod.ally.ac',
+      'clientId': 11632,
+      'lti13Id': '201710000000000128'
+  };
+  $.getScript(ALLY_CFG.baseUrl + '/integration/canvas/ally.js');
+}
+
+// Segment.io
+!function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};
+  var segment2uKey="ExlVW9YNwG9EA5buPCKA1nlbAwwhz6Mk";
+  if (window.location.host == 'digitalcampus.instructure.com') {
+    segment2uKey="7BKIV04l1A90BkuAlqLMkPiNAUhgbatW";
+  }
+  analytics._writeKey=segment2uKey;
+  analytics.SNIPPET_VERSION="4.15.3";
+  if (!document.body.classList.contains('is-masquerading-or-student-view')) {
+    analytics.identify(ENV.USER_EMAIL, {
+      name: ENV.current_user.display_name,
+      email: ENV.USER_EMAIL,
+      role: ENV.current_user_roles.join()
+    });
+  };
+  analytics.load(segment2uKey);
+  analytics.page();
+}}();
+
+// DataDog UX-Monitoring RUM for canvas-2u-degree
+(function(h,o,u,n,d) {
+  h=h[d]=h[d]||{q:[],onReady:function(c){h.q.push(c)}}
+  d=o.createElement(u);d.async=1;d.src=n
+  n=o.getElementsByTagName(u)[0];n.parentNode.insertBefore(d,n)
+})(window,document,'script','https://www.datadoghq-browser-agent.com/datadog-rum.js','DD_RUM')
+  window.addEventListener('otChanged', () => {
+    var newOtChanged = window.localStorage.getItem("otChanged");
+    if (newOtChanged && decodeURIComponent(document.cookie.split("; ").find((row) => row.startsWith("OptanonConsent="))?.split("groups=")[1]).includes('C0002:1')) {
+      DD_RUM.onReady(function() {
+        DD_RUM.init({
+        clientToken: 'pub6f24f59de4c1937f3f35fe2d70dff9e0',
+          applicationId: 'bc087c32-c629-4315-8c04-d254711c0463',
+          site: 'datadoghq.com',
+          service:'canvas-2u-degree',
+          env: window.location.host,
+          // Specify a version number to identify the deployed version of your application in Datadog
+          // version: '1.0.0',
+          sampleRate: 100,
+          trackInteractions: true,
+        })
+      });
+    }
+  })
+
+function getIdFromSrc(src) {
+  const start = src.indexOf("/iframe/") + 8;
+  const end = src.indexOf("?");
+  return src.substring(start, end);
+}
+
+function wistiaVideoEmbedMediaInline(id) {
+  const script1 = document.createElement("script");
+  script1.setAttribute(
+      "src",
+      "https://fast.wistia.com/embed/medias/" + id + ".jsonp"
+  );
+  script1.setAttribute("async", "");
+
+  const script2 = document.createElement("script");
+  script2.setAttribute(
+      "src",
+      "https://fast.wistia.com/assets/external/E-v1.js"
+  );
+  script2.setAttribute("async", "");
+
+  const script3 = document.createElement("script");
+  script3.setAttribute(
+      "src",
+      "https://fast.wistia.net/assets/external/transcript.js"
+  );
+  script3.setAttribute("async", "");
+
+  const div = document.createElement("div");
+  div.setAttribute("class", "wistia_responsive_padding");
+  div.setAttribute("style", "padding:52.71% 0 0 0;position:relative;");
+
+  const innerDiv = document.createElement("div");
+  innerDiv.setAttribute("class", "wistia_responsive_wrapper");
+  innerDiv.setAttribute(
+      "style",
+      "height:100%;left:0;position:absolute;top:0;width:100%;"
+  );
+
+  const embedDiv = document.createElement("div");
+  embedDiv.setAttribute(
+      "class",
+      "wistia_embed wistia_async_" + id + " seo=false videoFoam=true"
+  );
+  embedDiv.setAttribute("style", "height:100%;position:relative;width:100%");
+
+  const swatchDiv = document.createElement("div");
+  swatchDiv.setAttribute("class", "wistia_swatch");
+  swatchDiv.setAttribute(
+      "style",
+      "height:100%;left:0;opacity:0;overflow:hidden;position:absolute;top:0;transition:opacity 200ms;width:100%;"
+  );
+
+  const wistiaTranscript = document.createElement("wistia-transcript");
+  wistiaTranscript.setAttribute("media-id", id);
+  wistiaTranscript.setAttribute("style", "margin-top: 45px;height:200px;");
+
+  const img = document.createElement("img");
+  img.setAttribute(
+      "src",
+      "https://fast.wistia.com/embed/medias/" + id + "/swatch"
+  );
+  img.setAttribute(
+      "style",
+      "filter:blur(5px);height:100%;object-fit:contain;width:100%;"
+  );
+  img.setAttribute("alt", "");
+  img.setAttribute("aria-hidden", "true");
+  img.setAttribute("onload", "this.parentNode.style.opacity=1;");
+
+  // Structure for DOM
+  swatchDiv.appendChild(img);
+  embedDiv.appendChild(swatchDiv);
+  innerDiv.appendChild(embedDiv);
+  div.appendChild(innerDiv);
+
+  const container = document.createElement("div");
+  container.appendChild(script1);
+  container.appendChild(script2);
+  container.appendChild(div);
+  container.appendChild(script3);
+  container.appendChild(wistiaTranscript);
+
+  return container;
+}
+
+function wistiaTransform(){
+  const elements = Array.from(document.getElementsByClassName("wistia_responsive_padding"));
+  elements.forEach(element => {
+    const iframe = element.querySelector("iframe");
+    const src = iframe.getAttribute("src");
+    const id = getIdFromSrc(src);
+
+    const newElement = wistiaVideoEmbedMediaInline(id).cloneNode(true);
+    element.innerHTML = '';
+    element.style.padding= '0';
+    element.appendChild(newElement);
+  });
+}
+
+// Wistia Transcript Embeds
+!(function () {
+  setTimeout(wistiaTransform, 500);
+})();
+
+// Canvas Legal Footers
+var customLinks2U = '<a href="https://essential.2u.com/privacy-policy">2U Privacy Policy</a>\n <a href="https://essential.2u.com/cookies">2U Cookie Policy</a>\n <a href="https://essential.2u.com/terms-of-use">2U Terms of Use</a>';
+var footerLinksElement = document.getElementById('footer-links');
+if (footerLinksElement) {
+  footerLinksElement.insertAdjacentHTML("afterbegin", customLinks2U);
+}
+
