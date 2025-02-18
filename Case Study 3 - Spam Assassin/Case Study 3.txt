@@ -1,0 +1,82 @@
+SPAM ASSIN CASE STUDY
+
+1. 
+Welcome to our case study on spam. This week, we'll be dealing with an issue of a classifier. And our data is no longer contained in an ICE data frame or spreadsheet. An important part of this will be processing the data.
+Follow along the video as you get more details about the problem. As always, see if you have the same or different questions as our protagonist about what's going on with the data and the details of the problem. This week, we'll be probably using some clustering. And you definitely want to use a naive base for your assignment.
+Good luck and enjoy the video coming up. And remember, as always, to add your questions to your upload for your participation.
+
+2. 
+OK, so this week, we received a request from our IT department in that we as a company receive a significant amount of spam. So we've been given a collection of emails, both normal and spam, and our goal is that we need to process this data and then build a classifier that will classify emails as spam or not spam. So our goal for this week is to build a model that can take any given email and provide a classification. So essentially, what we're doing is we're building an email filter. And your task is to go through all of this data, process it, and then build, based on the contents of an email, a model that can predict whether any given email is spam or not spam. So that's your assignment. Are there any questions?
+
+3. 
+OK, so now that you've had a chance to look over the actual emails, are there any questions? Yeah, I actually have one overarching question. So what happens if we misclassify something as spam when it's not or vice versa? Would you rather us filter out too many spam messages and risk moving real emails to the Spam folder, or would you rather have a few spam messages make it through so that the real emails don't get lost?
+Yeah, that's an excellent question. And, I mean, I leave that up to you. Obviously, nobody wants to lose an important email by having it go into the Spam folder, but we're losing important emails now because they're getting lost in the shuffle because of the sheer volume of spam. So really it's whatever you decide works best.
+That's your call. OK, got it. So I do have actually one more question. I know I said I had one, but I have another one.
+My other question is about the data set. Is there a spreadsheet or file of this data? Yeah. Unfortunately, there is not.
+All we have are the emails themselves. So you are going to have to generate your own data set for this assignment. OK. But this is definitely something a little new for us.
+Is there anything that's been done on spam filtering before that we can check out for this? I believe that in the past, people have used Naive Bayes as an email filter. And it's been quite successful. So I would look into that.
+OK. Great.
+
+Case Study 3.
+Build a spam classifier using naive Bayes and clustering. You will have to create your own dataset from the input messages. Be sure to document how you created your dataset.
+
+sample for captions: 
+arxiv.org/pdf/2502.05078
+
+
+Build a spam classifier using naive Bayes and clustering. You will have to create your own dataset from the input messages. Be sure to document how you created your dataset.
+
+
+Feedback from case study 2: 
+
+Feb 10 at 7pm
+Lets make sure we get actual tables for the classification report and confusion matrix (or use ConfusionMatrixDisplay.frompredictions()
+
+Definitly need a wider value search for C, for instance I do 10E-6 to 10R+6 (20 values).
+
+Reminder are results should be Cross Validated Results so your support should be 101k for this case study
+
+- Robert Slater
+
+
+
+requirments for all case studies: 
+
+
+Case Study Requirements:
+• All data prep described
+o Imputation methods
+▪ Why did you choose that?
+o Size of data (features, examples)
+o How splits were performed
+• Data Science Model(s) used
+o Configuration
+▪ Early Stopping
+▪ Loss Function/Metric Optimized
+▪ Other metrics monitored
+o Hyperparameters tested
+▪ (aka Ablation Study)
+▪ Random/Grid/Other/Combo
+o Best Hyper Parameters
+• Results:
+o Continuous Problem
+▪ Loss metrics
+▪ Residuals
+▪ Plots of Predicted vs Target (All examples)
+o Classification Problem
+▪ Confusion Matrix (all examples)
+▪ Classification Report (all examples)
+▪ AUC-ROC
+• Binary Problems Only
+▪ Precision, Recall, Sensitivity, Specificity
+• NO MORE
+o “Performed Well”
+▪ Results speak for themselves: Accuracy was X, Precision was Y
+o “Good Results”
+▪ See above
+o “Impressive”
+▪ Unless its state of the art, its not impressive and since NONE of the
+homework is on standard data, you will never have state of the art
+in this class.
+o Train/Test Splits
+▪ Cross Validate EVERYTHING

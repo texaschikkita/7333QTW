@@ -1,0 +1,258 @@
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:36:03
+I'm not saying you have to do that but that's saying that That's what I'm used to seeing.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:36:08
+So when I say what I'm used to seeing in these papers.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:36:11
+They said, this one might be a little long. I'm never going to nail you for being too long on these.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:36:16
+But, you know, they need to be descriptive. So that's and so when I see you guys like.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:36:23
+Figure five results. Oh, no, no, no. We got to do a lot more than that.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:36:27
+So that's kind of our next step. In a presentation.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:36:35
+Just look at the next one. Oh, we don't even have figures in here.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:36:44
+How rude. Oh, so we got a table. Oh, you didn't put the table caption in. Oh, minus 10.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:36:58
+Let's see. Because there's all there's all Man, they just, so many papers coming out I can't remember the names for them either, but
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:37:19
+So stuff like this, network proposed structure See, now these are being short again. So I was trying to find some good papers. But the idea is this is a Bare minimum.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:37:31
+So definitely want some more details. This, I don't know, like I said, it's a preprint, so it's not approved for publication. You're going to get booted for this.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:37:41
+I want to say you're going to get booted but if you write a paper and you may say, well, I'm never going to write a paper.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:37:46
+But the idea is if you're doing a presentation You know, there's going to be some context about what that table is or what that figure is, you know, the text that goes on your slide, it's the same So we want that to be a little more verbose. And so that's just a universal
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:38:02
+Thing I'm seeing. So I put that on pretty much everybody's If I didn't put it on yours, it's probably because I just ran out of time.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:38:14
+So that's kind of what that comment was about. Most everybody was into the cross-validation, so we're getting there.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:38:22
+You know, there's been some comments like hey i get better results if I do train test splits.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:38:28
+And the idea is not so much what your absolute performance is. It's your estimate on unknown data.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:38:38
+And so… it's kind of a, I don't want to say a catch 22 situation like Why do I not want the higher score with a train test split?
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:38:48
+The idea is you get a better picture of what your spread of performance is when you do cross validation.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:38:55
+And so you get more confidence in how your model is going to perform on new data.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:39:03
+And one of the things that happens, especially in my field.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:39:07
+We get our scores and we get even our cross validation scores and then we go to a new data set and performance falls off.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:39:14
+And so you want to limit that fall off in new data.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:39:19
+And that's why I'm so big on cross validation. When you go to data science competitions.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:39:28
+And you're like, why do we care about data science competitions? Well, because they're there for the money, right? There's money involved. People are going to do it.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:39:39
+And if I bring up these
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:39:47
+Look up the competitions.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:39:56
+What we'll have is…
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:40:04
+You have something like this. You'll have this leaderboard. And you can see, okay, they have these scores. Who's got the best score?
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:40:11
+Well, there's a little bit… of a game going on here.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:40:16
+Yes, you may be number one on the leaderboard And it's done on 50% of the data, but there's 50% you don't know.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:40:24
+And so the trick is, yes, it shows you where you are now, but when they close the competition.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:40:29
+And then actually score it. How confident are you that you're going to keep your position?
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:40:35
+Because this person gets $10,000. And number four gets a slap on the back and a job well done.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:40:42
+So there's a big difference between one and four. And so one of the things is you have to be very careful confident in your score. Now, this one is a Kaggle learners
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:40:59
+Let's go to one of these. And you can see like some of these prizes are pretty big, you know, a million bucks, 50,000 bucks Oh, that was…
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:41:15
+So if you look at these scores and you see 1.01, 1.02, 1.021.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:41:24
+You want to be very confident that when you see that new data.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:41:28
+Your score is not going to drop. And if it is going to drop, it's not going to drop very much.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:41:34
+That's why cross validation is such a big deal. It's not about, hey, I'm getting quote, better results if I do train test splits.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:41:43
+It's are you more robust? Against new and unknown data. And the biggest problem is that new and unknown data sometimes comes from a different data set. So in my field, medical imaging.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:41:54
+We've got all this data and then we may have a different data set and there's subtle conditions that are different from the study.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:42:00
+And the model gets biased. To the original conditions. And so we see a performance drop.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:42:05
+We'll see it drop 10%. I may go from a dice score, which is kind of like segmentation How much did you segment? Did you get it 90% right? Did you get it 80% right? I might go from 90% average down to 80% simply on a new data set.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:42:21
+And so to limit that, I've actually gotten pretty good at it.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:42:25
+Is doing cross validation and I got it from Kaggle because all these people They'll interview this person. They'll say, hey, what did you do to win?
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:42:38
+Every single one of these cross-validating five-fold, tenfold, they're all cross-validating and In this one, you have limited time. So it's not like you have forever. So it's worth their effort.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:42:49
+That they're confident. On what their score is, because what happens is you get this score and then the the competition closes and they reevaluate the leaderboard and you can see This person went up seven spots. This person went down one. This one went down three.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:43:06
+This one is actually pretty good. There used to be kind of an ongoing gag about People intentionally try and run up their leaderboard score just to, they make multiple submissions just to try and get to the top.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:43:20
+But the question is, what's going to happen when they release the test set?
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:43:23
+And that's where your confidence has to be. Now, we don't usually have a true test set that's hidden from us. We have access to it.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:43:32
+But that's the real thing that's going on behind the scenes. So it's not just me kind of being like, hey, this is the way I do it.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:43:39
+You guys all have to conform. It's real world and then it's real world Even in our larger networks, when we get to neural networks, they're long, they take weeks to train.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:43:50
+It is becoming more and more a trend to cross-validate even for those.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:43:55
+So it's becoming kind of a community expectation. So it's not like one is right or one is wrong.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:44:01
+It's what do people use to get their most solid results and why in what context. And then also, what is our community expectation?
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:44:11
+You know, what is the data science community see as normal And I don't want to get into cultural norms and all that kind of stuff because some of them are foolish. But the idea is how do you navigate those, right?
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:44:24
+And so knowing that you're kind of expected to do a cross validation is one of those things like.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:44:30
+Okay, that's just how our field operates. You know, there are certain things there's weird notations. And you may have caught me uh uh talking about him before, but in physics If you write an index, I don't know if I can find an index, but if the index is repeated, it's implied that it's summed.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:44:54
+And it's kind of like right there. The problem is that makes no sense. Like, why would you do that And it's just, that's the cultural norm of physics. You don't have to like it You may think it's dumb. I think it's kind of crazy.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:45:10
+But it is what it is. That's kind of our, that's not a very strong argument for why do we do cross-validation, but it is part of now the cultural norm of data science.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:45:19
+So it's kind of expected, even if you may think, well, I'm getting better results with train test splits.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:45:26
+There's some variation when you do the splits and and like for the spam one that we're looking at.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:45:33
+For our current homework, one of the things you may not realize is when we list those out, those are listed in order.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:45:38
+And so if you don't shuffle it really well. What's happening is what's happening is Those hard spam messages are not getting evenly distributed. Now, we just call them spam And we have spam and not spam But there's hard messages, there's easy messages to classify. They've got those. And so if those aren't evenly distributed.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:45:59
+You may be… I don't want to say fooling yourself, but you could get biased results on your train test split. That way, when you're doing it all, you've got all the data included there. That's the real secret behind it. And yes, it does take five times as long.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:46:14
+For most of us right now, that's not a huge issue.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:46:17
+It does become an issue as you get to larger and larger networks or larger and larger models. Obviously, I'm biasing towards neural networks. But just kind of a, you know.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:46:28
+Why am I so insistent on that and so it is from practice, from seeing this on on Kaggle.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:46:34
+And seeing what I've seen kind of in research like No, you're expected to do cross validation now.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:46:41
+So it's just one of those things that I don't want to say we have to deal with it, but it's here to stay.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:46:48
+So anyway, with that, let me get off my soapbox And let's talk about tonight's lecture, Naive Bayes.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:46:59
+Once again, Zoom is hiding from me.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:47:08
+All right. Now my Slides are hiding from me. Come on, knock that off.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:47:19
+All right. I'm just going to do it the old fashioned way.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:47:26
+Share it on the other screen.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:47:32
+So if I'm looking off to the right, it's because I'm looking at my other screen here.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:47:44
+All right. So Bay's rule and Bayesian algorithms are a little bit different from our other algorithms, but hopefully by the end of tonight, I'll convince you that it's not that different. There is a kind of divide in the data science community. There's Bayesians and there's frequentists
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:48:04
+I don't really buy into that myself. As hopefully we'll demonstrate tonight.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:48:10
+But it's a way of looking at things. It's just kind of a different optional way of looking at things.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:48:16
+That sometimes can be very, very helpful. It's really not that different The approach, the mindset It just causes you to look at things a little bit different.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:48:32
+So the original Bayes rule Right here, we've got the probability of A given B.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:48:38
+Is probability of B given A times the probability of A divided by the probability of B.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:48:43
+So this… equation is not so clear cut. It's like, I got A's and B's and which ones go where So I like to think of it Like your updated beliefs, your posterior, so you'll hear posterior and prior is equal to your prior beliefs
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:49:07
+Times the likelihood or the evidence. So when we look at this, we've got this updated beliefs. The probability of A given event B, is equal to the probability of A.
+
+[CkWpkoRwcUmDho7K2IkdGXASXUWOVZ18NJIJx600@smu.prod.digitalcampus.2u.com] 20:49:21
+Divided by the probability of B times this likelihood, the probability of B given A. So it's You know.
+

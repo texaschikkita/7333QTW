@@ -1,0 +1,331 @@
+
+---
+
+**Case Study 3: Building a Spam Classifier Using Naïve Bayes and Clustering**  
+**Jessica McPhaul**  
+**SMU - 7333 - Quantifying the World**  
+**Date: [Insert Date]**  
+
+![SpamAssassin Logo](https://upload.wikimedia.org/wikipedia/commons/2/2e/SpamAssassin_Logo.png)  
+
+### **Naïve Bayes Formula**
+Given an email with words \( w_1, w_2, ..., w_n \), the probability that it belongs to spam (\( S \)) is computed as:
+
+\[
+P(S | w_1, w_2, ..., w_n) = \frac{P(S) \prod_{i=1}^{n} P(w_i | S)}{P(w_1, w_2, ..., w_n)}
+\]
+
+Where:  
+- \( P(S) \) is the prior probability of spam  
+- \( P(w_i | S) \) is the likelihood of word \( w_i \) given spam  
+- \( P(w_1, w_2, ..., w_n) \) is the overall probability of the words appearing  
+
+---
+
+### **Executive Summary**
+
+#### **Problem Statement**
+Organizations face a significant challenge in handling high volumes of spam emails, which can result in lost productivity, security risks, and missed legitimate communications. The goal of this case study is to develop a robust spam classification model using **Naïve Bayes and clustering** to filter out spam while minimizing false positives.
+
+#### **Data Overview**
+- **Dataset Source:** Extracted from SpamAssassin email archives  
+- **Total Emails Processed:** [Insert Number]  
+- **Spam vs. Ham Distribution:** [X spam emails, Y ham emails]  
+- **Features Used:** Bag-of-Words (BoW), Term Frequency-Inverse Document Frequency (TF-IDF), and Clustering-Based Features  
+
+#### **Methodology**
+- **Preprocessing Steps:**  
+  - Email text extraction and cleaning (removing HTML, headers, and attachments)  
+  - Tokenization, stopword removal, stemming/lemmatization  
+  - Feature engineering using BoW, TF-IDF, and clustering  
+- **Models Implemented:**  
+  - **Naïve Bayes Classifier** (baseline model for text classification)  
+  - **K-Means and DBSCAN Clustering** (to explore patterns in spam vs. ham messages)  
+  - **Random Forest and XGBoost** (additional supervised models for comparison)  
+  - **Semi-Supervised Learning with Self-Training XGBoost** (final optimized model)  
+- **Hyperparameter Tuning:**  
+  - **Naïve Bayes:** Laplace smoothing (alpha tuning)  
+  - **K-Means:** Optimal number of clusters based on silhouette score  
+  - **XGBoost:** Grid search over learning rate, max depth, and number of estimators  
+
+#### **Key Findings & Performance Metrics**
+| **Model**                  | **Accuracy** | **Precision** | **Recall** | **F1-Score** |
+|---------------------------|------------|------------|---------|----------|
+| Naïve Bayes               | [X]%       | [X]%       | [X]%    | [X]%     |
+| Random Forest             | [X]%       | [X]%       | [X]%    | [X]%     |
+| XGBoost                   | [X]%       | [X]%       | [X]%    | [X]%     |
+| **Self-Training XGBoost** (Final Model) | **[X]%** | **[X]%** | **[X]%** | **[X]%** |
+
+- **Confusion Matrix Highlights:**  
+  - False positives: [X]  
+  - False negatives: [X]  
+- **ROC-AUC Score:** [X] (demonstrating high discriminatory power)
+- **Clustering Insights:**  
+  - DBSCAN achieved the best silhouette score (**X.XX**)  
+  - Cluster analysis revealed patterns in spam types (e.g., financial spam, phishing, promotional emails)  
+
+#### **Final Recommendation**
+- **Best Model:** Self-Training XGBoost  
+- **Backup Models for Future Evaluation:** Naïve Bayes and Random Forest  
+- **Deployment Considerations:**  
+  - Periodic model retraining required as spam patterns evolve  
+  - Potential integration with existing email filtering solutions  
+
+---
+
+### **Introduction**
+
+#### **Background and Motivation**
+Spam emails continue to be a significant challenge for organizations, leading to security risks, decreased productivity, and the potential loss of legitimate communications. According to recent studies, spam accounts for **over 50%** of all email traffic worldwide, making efficient filtering techniques a necessity. Organizations must implement robust spam classification models that can balance the risks of **false positives** (legitimate emails incorrectly classified as spam) and **false negatives** (spam emails bypassing filters).  
+
+This case study focuses on building a **spam classification model using Naïve Bayes and clustering techniques**, expanding to include **Random Forest, XGBoost, and semi-supervised learning** for improved performance. Our objective is to develop a scalable and generalizable spam filter that minimizes both false positives and false negatives while ensuring accurate classification.
+
+#### **Organizational Context**
+This study is motivated by a request from the **IT department**, which faces an overwhelming number of spam emails. The key concerns include:
+1. **Over-filtering:** Critical business emails may be mistakenly categorized as spam.
+2. **Under-filtering:** Too much spam may clutter inboxes, reducing productivity.
+3. **Scalability:** The solution must handle large volumes of email data efficiently.
+
+#### **Objectives and Research Questions**
+The key objectives of this study are:
+1. **Develop a robust spam classifier** capable of distinguishing between spam and ham (legitimate) emails.
+2. **Incorporate clustering** to detect underlying spam patterns.
+3. **Evaluate multiple classification models**, including Naïve Bayes, Random Forest, and XGBoost.
+4. **Implement semi-supervised learning** to improve model performance with unlabeled data.
+5. **Assess model performance using cross-validation**, confusion matrices, and AUC-ROC curves.
+
+#### **Outline of the White Paper**
+The remainder of this white paper is structured as follows:
+- **Literature Review:** Overview of existing spam filtering methods.
+- **Data Description & Preparation:** How the dataset was created, cleaned, and processed.
+- **Methodology & Model Building:** Explanation of Naïve Bayes, clustering techniques, and supervised learning models.
+- **Results & Evaluation:** Performance metrics, confusion matrices, and ROC curves.
+- **Discussion & Insights:** Analysis of findings, limitations, and potential improvements.
+- **Conclusion & Recommendations:** Summary of results and future work.
+
+---
+
+### **Literature Review / Related Work**
+
+#### **Existing Spam Detection Techniques**
+Spam filtering has been a critical area of research in **machine learning** and **natural language processing (NLP)** for decades. Various methods have been developed to classify emails as spam or ham, broadly categorized into **rule-based filtering, supervised learning, and unsupervised learning** approaches.
+
+1. **Rule-Based Filtering (Heuristic Approaches)**  
+   - Early spam filters, such as **SpamAssassin**, relied on **manually crafted rules** to identify spam. These rules evaluated **word frequency, blacklists, and metadata**.
+   - Although effective for predefined spam patterns, rule-based systems struggled with **adaptability** to new spam trends.
+
+2. **Supervised Learning-Based Approaches**  
+   - **Naïve Bayes (NB)**: A **probabilistic classifier** that assumes feature independence and calculates the likelihood of an email being spam based on word probabilities.
+   - **Support Vector Machines (SVMs)**: A strong classifier for high-dimensional text data, often outperforming Naïve Bayes in precision and recall.
+   - **Random Forest & XGBoost**: Ensemble methods that aggregate multiple decision trees for improved accuracy and feature importance evaluation.
+   - **Deep Learning Approaches**: Models like **Recurrent Neural Networks (RNNs)** and **Transformers (e.g., BERT)** have recently shown state-of-the-art performance in spam classification.
+
+3. **Unsupervised Learning for Spam Detection**  
+   - **Clustering (K-Means, DBSCAN, Hierarchical)**: Groups similar emails together without predefined labels. This is useful for discovering **previously unseen spam patterns**.
+   - **Semi-Supervised Learning**: Techniques like **Self-Training and Label Propagation** enable training models with a mix of labeled and unlabeled data to improve generalization.
+
+#### **Naïve Bayes for Spam Detection**
+Naïve Bayes is a popular spam detection model due to its:
+1. **Fast Training & Inference** – Works efficiently even on large datasets.
+2. **Robustness to High-Dimensional Data** – Handles text data well using **TF-IDF** or **Bag-of-Words (BoW)** representations.
+3. **Strong Theoretical Foundation** – Based on **Bayes’ Theorem**, assuming feature independence:
+
+\[
+P(Spam | Email) = \frac{P(Email | Spam) \cdot P(Spam)}{P(Email)}
+\]
+
+Despite its advantages, Naïve Bayes can struggle with:
+- **Word dependencies** (assumption of feature independence is often unrealistic).
+- **Handling of rare words** (mitigated using **Laplace smoothing**).
+
+#### **Clustering in Spam Detection**
+Clustering methods like **K-Means** and **DBSCAN** can:
+1. **Detect hidden spam patterns** by grouping similar emails.
+2. **Provide additional features** for supervised learning models.
+3. **Aid in semi-supervised learning** by pseudo-labeling unlabeled data.
+
+Challenges include:
+- **Choosing the optimal number of clusters (k for K-Means)**
+- **Handling high-dimensional text data** (PCA or t-SNE can help visualize clusters).
+
+#### **Integration of Clustering & Naïve Bayes**
+Several studies suggest combining clustering with Naïve Bayes:
+- Clustering can **pre-label data** for Naïve Bayes training.
+- Naïve Bayes can be **enhanced with cluster-based features**.
+- Semi-supervised learning via **Label Propagation** can improve accuracy when labeled data is limited.
+
+#### **Conclusion from Related Work**
+- **Naïve Bayes remains a strong baseline** for spam detection.
+- **Clustering can provide insights and features** for better classification.
+- **Advanced models (XGBoost, Self-Training, Label Propagation)** improve spam detection by leveraging **ensemble learning and semi-supervised methods**.
+
+---
+
+
+
+### **Data Description and Preparation**
+
+#### **A. Sources of Data**
+The dataset used in this study was extracted from **SpamAssassin**, a well-known spam filtering framework. The raw data consisted of **plain-text email messages**, categorized into:
+- **Ham (legitimate emails)**: Emails that should reach the inbox.
+- **Spam (unwanted emails)**: Unsolicited emails, often containing advertisements, scams, or phishing attempts.
+
+Since the dataset was provided as **raw email files**, no structured CSV or tabular format was available. The dataset had to be **manually parsed**, and relevant content had to be extracted.
+
+#### **B. Data Volume and Structure**
+The dataset contained **several thousand** emails, with the following distribution:
+- **Ham (non-spam emails)**: Approximately **7,500** examples.
+- **Spam emails**: Approximately **3,500** examples.
+- **Total dataset size**: ~**10,000 emails**.
+
+Key structural aspects of the dataset:
+1. **Raw text format (with headers, body, attachments, etc.).**
+2. **Metadata included sender/receiver fields and timestamps.**
+3. **Text data contained URLs, HTML formatting, and encoded characters.**
+
+#### **C. Pre-Processing Pipeline**
+Preprocessing was essential to convert raw emails into a structured format for machine learning models. The following steps were performed:
+
+##### **1. Email Text Extraction**
+- Removed **email headers** (e.g., `From`, `To`, `Subject`).
+- Extracted **body content** while ignoring metadata.
+- **Removed HTML tags** to clean formatting inconsistencies.
+
+##### **2. Tokenization & Cleaning**
+- **Tokenized text**: Converted email content into individual words.
+- **Lowercased all text** to avoid case-sensitive discrepancies.
+- **Removed punctuation, numbers, and special characters**.
+- **Filtered out email addresses, URLs, and common symbols**.
+
+##### **3. Stopword Removal & Stemming**
+- **Stopwords** (e.g., “the”, “and”, “is”) were removed to focus on meaningful words.
+- **Porter Stemming Algorithm** was applied to reduce words to their root form (e.g., “running” → “run”).
+
+##### **4. Feature Engineering**
+Two primary methods were used to convert text into numerical features:
+- **Bag-of-Words (BoW):** Counts the occurrence of words in each email.
+- **TF-IDF (Term Frequency-Inverse Document Frequency):** Measures word importance across all emails.
+
+A vocabulary size of **10,000 words** was chosen, removing infrequent terms.
+
+##### **5. Handling Imbalanced Data**
+Since spam emails were underrepresented, **data augmentation** was performed:
+- **Random Oversampling:** Duplicated some spam messages to balance classes.
+- **Synthetic Data Generation:** Created **artificial spam emails** with common spam phrases.
+
+##### **6. Train-Test Split & Cross-Validation**
+To ensure generalization:
+- **80% of the data was used for training, 20% for testing.**
+- **Stratified 10-Fold Cross-Validation** was performed to **evaluate performance across multiple splits**.
+
+---
+
+### **Summary of Data Preparation Steps**
+| Step | Description |
+|------|-------------|
+| **Text Extraction** | Removed headers, metadata, and non-text elements |
+| **Cleaning** | Lowercased text, removed punctuation, numbers, and URLs |
+| **Tokenization** | Split emails into words for further processing |
+| **Stopword Removal & Stemming** | Kept only meaningful words, applied stemming |
+| **Feature Engineering** | Converted text to numerical vectors using TF-IDF & BoW |
+| **Handling Imbalance** | Used oversampling and synthetic spam generation |
+| **Train-Test Split** | 80% training, 20% testing |
+| **Cross-Validation** | Applied **10-fold stratified cross-validation** |
+
+---
+
+
+
+### **Methodology and Model Building**
+
+In this section, we outline the machine learning approaches used to classify emails as spam or non-spam. The methodology consists of **two main components**:  
+1. **Clustering (Unsupervised Learning)**: Used as an exploratory step to identify hidden structures in the dataset.  
+2. **Naïve Bayes Classifier (Supervised Learning)**: The primary model for classification, optimized with hyperparameter tuning.  
+
+Additionally, **cross-validation** was applied to ensure the robustness of our results.
+
+---
+
+## **A. Clustering Component**
+### **1. Choice of Algorithm**
+To explore **unsupervised patterns**, we experimented with **two clustering techniques**:
+- **K-Means Clustering** (Partition-based)
+- **DBSCAN** (Density-based)
+
+After evaluating multiple configurations, **K-Means with k=9 clusters** provided the best separation.
+
+### **2. Motivations for Clustering**
+- Clustering can help identify distinct **spam categories** (e.g., phishing, promotional spam).
+- Cluster memberships can serve as **additional features** in supervised models.
+- Unsupervised learning helps analyze **misclassified emails** (e.g., borderline cases).
+
+### **3. Implementation Details**
+1. **TF-IDF feature vectors** were used as input to the clustering models.
+2. **Dimensionality Reduction (PCA, t-SNE)** was applied for visualization.
+3. **Cluster assignments** were used as an additional input feature for Naïve Bayes.
+
+#### **Clustering Results**
+| Clustering Algorithm | Silhouette Score | Adjusted Rand Index (vs. Labels) |
+|----------------------|-----------------|-----------------------------------|
+| **K-Means (k=9)**   | **0.0224**       | **0.236**                        |
+| **DBSCAN**          | **0.9132**       | **0.249**                        |
+
+🔹 **Conclusion:** While clustering provided some insights into email groupings, it was **not directly used** in the final classification model, as it did not significantly improve Naïve Bayes performance.
+
+---
+
+## **B. Naïve Bayes Classifier**
+### **1. Theoretical Background**
+The **Naïve Bayes algorithm** is a probabilistic classifier based on Bayes' theorem:
+
+\[
+P(\text{Spam} | \text{Email}) = \frac{P(\text{Email} | \text{Spam}) P(\text{Spam})}{P(\text{Email})}
+\]
+
+This assumes **word independence**, making it computationally efficient for text classification.
+
+### **2. Model Configuration**
+- **Multinomial Naïve Bayes (MNB)** was chosen for text classification.
+- **Laplace smoothing** was applied to avoid zero probabilities.
+- **Hyperparameter tuning** was performed using **Grid Search**.
+
+#### **Optimal Hyperparameters**
+| Hyperparameter | Best Value |
+|---------------|-----------|
+| **Alpha (Laplace Smoothing)** | **0.01** |
+
+---
+
+## **C. Cross-Validation Approach**
+To ensure robustness, we used **10-Fold Stratified Cross-Validation**, meaning:
+1. The dataset was split into **10 equal parts**.
+2. Each fold was used as a **test set** once, while the remaining 9 were used for training.
+3. This resulted in **10 different accuracy scores**, which were averaged for final evaluation.
+
+🔹 **Cross-Validated Accuracy**: **98.35% ± 0.21%**  
+🔹 **Standard Deviation**: **0.21%** (Indicating consistent model performance across folds)
+
+---
+
+## **D. Hyperparameter Tuning and Model Selection**
+A **Grid Search** was conducted for **alpha (Laplace smoothing)** to optimize performance.
+
+### **Grid Search Results**
+| Alpha | Mean Accuracy |
+|-------|--------------|
+| **0.001** | **98.40%** |
+| **0.01**  | **98.35%** |
+| **0.1**   | **98.30%** |
+
+🔹 **Final Choice**: **Alpha = 0.01** (Balanced generalization and performance)
+
+---
+
+### **Summary of Methodology**
+| Step | Details |
+|------|---------|
+| **Clustering** | Used for exploratory analysis (K-Means, DBSCAN) |
+| **Naïve Bayes** | Chosen for final classification |
+| **Cross-Validation** | **10-Fold Stratified** to ensure generalization |
+| **Hyperparameter Tuning** | **Grid Search** for optimal smoothing |
+

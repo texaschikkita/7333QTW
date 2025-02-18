@@ -1,0 +1,105 @@
+1. Etropy
+
+Hi, and welcome to the video where I'm going to introduce the concept of entropy. Entropy is a mathematical concept, and it's the idea of randomness or disorder. One of the unique things about entropy is that as entropy increases, it represents a loss of order. So if we decrease entropy or we lose disorder, what we do is we call it information gain.
+So using a concept such as entropy can allow us to quantify how much information or how much order we're finding if we start to make decisions. So let's take a look at the specific definition of entropy. So if I have a discrete variable, and it's random, and it has a certain number of outcomes, the entropy H is defined by these probabilities. The probability is, of course, the chance of the outcome.
+And the base is typically actually log 2. So although many times, we deal with natural logarithms or log base 10, entropy is typically defined as base 2. So remember this when we see things, especially like your password, and we talk about bits of entropy. The origin of that phrase actually comes from this definition, where we're looking at the order of the logarithm or the base of the logarithm.
+So let's take a look at a fair coin flip. Something that is actually quite random or disordered. If we look at the probabilities, each outcome, heads or tails, has an equal chance. It's 50-50.
+So if we substitute that into these equations, we simply have the probability times the log base 2 of that probability. And we add those combinations together. We find out that our entropy is 1. And here, with the entropy being 1, it represents a high amount of disorder or randomness.
+Now, you may think that we chose base 2 simply because there's two classes. But that's not the case. Again, the choice of the base is by definition and not the number of classes. So let's take a look at maybe I've got a weighted coin or a trick coin.
+So I know that the probability that it's going to land heads is slightly more than it's going to land tails. If we substitute those numbers into this same equation, we see that our entropy has decreased from 1 to 0.97. So what's happened is we've gained information. The entropy or disorder of the system has decreased.
+And we represent that as a decrease in entropy or an information gain. So information gain is simply the loss of entropy.
+
+
+2. Gigi Coefficient
+
+Hi, and welcome to the video on the Gini Impurity. The Gini Impurity is what the original measurement of information gained was when decision trees were originally invented. We may not have talked about decision trees yet, but it's important for us to understand the idea behind this Gini Impurity. You may have encountered the name Gini before, but I want to remind you not to confuse Gini Impurity with Gini Coefficient.
+They are two separate and actually unrelated measurements. So the Gini Coefficient is an economics term. So if you want to do the data science term, make sure you're looking for the Gini Impurity. Now what the Gini Impurity is is a measurement of the incorrect classification of a new sample.
+So if you have a set of labels, Gini Impurity is the probability that the wrong label was assigned to your target. Once again, let's take a look at a coin toss, where the coin toss is random, and we're going to assign labels to all these examples. So, if we have a probability of 50-50--
+in other words, 50 heads and 50 tails--
+the probability that I assign the wrong label is actually 0.50. Now this may seem a little bit odd, but it's still the same way that we did things before when we're looking at probabilities of assignment. It's just the formula is slightly reformed from other concepts such as entropy. So let's take a look at what happens if I had a weighted coin toss.
+So if I had 40 heads and 60 tails, once again, we see that the Gini Impurity would decrease compared to the original 50-50. So, the Gini Impurity is lowered from its original value of 0.5. So we say that we've gained information as the Gini Impurity lowers from its original value of 0.5 to 0.48
+now that we've got a weighted example, where more of the outcomes are biased towards one class or another. So when Gini Impurity G is lowered, we gain information.
+
+
+3. Partition Trees
+
+Welcome to the video on partition trees. Partition trees, although we're not going to use them directly as often as have been used in the past, do form the basis of many of our algorithms that we're going to be using later in the class. For instance, XGBoost and Random forest are both based on the concept of the partition tree. So it's extremely important that we understand how a partition tree is formed.
+So the original partition tree algorithm was called CART. And that simply stood for classification and regression trees. So we have trees, but what is a partition tree? A partition tree is our first example of a nonlinear classifier.
+This allows us to make different non-linear guesses for what the value of our targets might be. So while regression has a predictive claim and dimension, trees can project multiple surfaces. Once again as we go to higher and higher topology, it's hard for us to visualize what's happening. So I want to include a picture to help us understand the difference between a regression and a partition tree.
+So here, we have an example of a linear versus a non-linear classifier. The linear model on the left has a continuous plane, here in three dimensions. All predictions will lie on this plane. Even if our targets are off the plane, we're going to find the plane that best suits the target data.
+For our partition tree on the right, it can have multiple surfaces. These surfaces can be as complex as we want them to be. And so we can assign different values to different regions. It's also important to note that while the plane may be always increasing in a certain direction or decreasing, the partition tree can be decreasing or increasing.
+As we notice on the far right, there's a region around the edge that is actually lower than the high region represented by the dark red. This allows these nonlinear partition tree classifiers to fit very complex data sets. However, of course, with new tools come new dangers. And the ability to overfit become significantly increased as we go to nonlinear classifiers.
+So what a partition tree does is it forms a decision tree. What we're going to do is we're going to partition our data into bins. And when we say partition, we're going to define subsets of the data, and we're going to put those in bins or decisions. So an example of a decision is, let's say, is the value of the first column x less than 5?
+If it is, we're going to go to bin A. And if it's not, we're going to go to bin B. In the end, what we'll see is that each bin gets assigned a value. And as we see here, the color of our box or bin would indicate our class.
+So what's happening here is we're going through our data. And we're making decisions based on the data. And when we end up at one of our boxes, we will finally assign a class. So each one of these boxes at the end will represent a bin.
+And each time we have a box with arrows leaving it, we'll have it as a decision. So we can start to follow this decision tree and see how this data occurs for the classic Iris data set. So the first decision as we come through here, we look at the petal length. And we see that if the petal length is less than 2.45,
+we're going to assign the class to be setosa. However, if not, we're going to come to another decision. And if we look at the petal width, so now is both the petal length greater than 2.45, because remember we're following the false path, and the petal width less than 1.75,
+then we'll take the left hand path. If it's greater than 1.75, we'll take the right hand path. So we can continue following these decisions until we see we can have different classifications.
+And the green will be the versicolor assignment. And the purple will be the virginica class of the Iris data set. So we have three classes. The decision tree, the partition tree is inherently multiclass and inherently non-linear.
+So the question becomes, how are we going to make these decisions? How did we to make a cut or a decision at 2.45 in that particular column? What we're going to do is we're going to start to sort through our data.
+And we're going to make decisions based on the data input value. And what we're going to do is we're going to compare decisions and find where that decision gives us the maximum gain in information. Now we can use both the Gini or the entropy to figure out which one gives us our information gain. We can find instances where probably the Gini impurity is better and instances where the entropy is better.
+But in the long run, you can use either one of them. Each time we do this, we're going to repeat for the leftover branches until we have some sort of stopping criteria. So the stopping criteria can be as simple or complex as we want. So we may set a minimum amount of information gain we want.
+In other words, we want a threshold for information game. We don't want very, very small instances. We want lots of information gained. If we find that we don't meet that threshold, we can stop.
+Another set of criteria is we can have a set number of decisions. So we can say, I want to go through five decisions or 10 decisions. And that would be called the max depth. That means I can go through 10 rules.
+And then I'm just not going to make any more decisions or splits. The final process is we can look at the number of samples in a decision. Eventually as we start partitioning our data, the data sets and sub data sets becomes smaller and smaller. It's entirely possible that we may only have three or four samples per bin as we start to partition and split the data out.
+So the samples per x or samples per bin or samples per leaf determines how many samples we need to actually make the decision. So if I need 10 samples per decision, that would mean I would have to have 10 leftover examples to start a new decision. If I had 10 samples per leaf, that would mean that after the decision, in both leaves, I would have to have 10 examples that fit the split. Or in other words for the decision, I'd actually need possibly 20 if they were split evenly and maybe even more if the decision is a non 50-50 decision.
+Each of these rules contributes to how deep or how complex your partition tree performs.
+
+
+
+
+
+
+
+
+
+4. Bagging
+
+Welcome to the video on the bagging method. Bagging stands for bootstrap aggregation. What bagging does is it's using sampling with replacement to build small sub-models and combine the results to produce an ensemble model. In general, this gives us a better overall fit by taking many small models and combining their results to give a more general model.
+An example of bagging is presented here in this graph on the right. So we see we have quite a noisy data set, and we could be prone to overfitting. However, if we take some samples and fit multiple models and then combine the results of those multiple models, represented here by the red line, we get a much better general fit. Bagging has been around for quite some time.
+And while it seems like a little bit of a mathematical trick, the same mathematics that underlie the laws of statistics and large numbers underlie the concepts of bagging. So by taking a number of sample models and combining them to produce an overall model, we end up with a much, much better aggregate model. And thus, bootstrap aggregation becomes a powerful method for us to take multiple models and combine their results to get a much more generalized fit. We can also even use bagging for things like imputation.
+We may or may not have already imbued imputation, but we'll find that there may be multiple imputation models. And we can take the results of those models and use bagging to provide a much more generalized fit. So you can see bagging is not something that is just used for one particular algorithm. It's quite useful in multiple algorithms and is used extensively in modern data science.
+
+
+
+
+
+5. Random Forest
+
+Welcome to the video on random forest. Random forest is our first bootstrap aggregation method. And it's simply bagging of CART trees. So what we're going to do to build a random forest is we're going to pick a subset of the data.
+And then once we're inside there, we're going to pick a subset of features to do our splits by. Now using the concept of bagging, instead of one partition tree, we may build multiple trees. And in fact, the default is sometimes hundreds of trees. And we're going to take those and build classifiers or regression algorithms to produce results.
+And we'll take the individual results of each of those partition trees. And we will average the outcome. So the key concept here is by randomly picking data, we're going to have each tree be uncorrelated with the other tree. This allows us to have trees look at different subsamples of the data and different subsamples of how this problem can be solved.
+Random forest, while on the surface seeming to be a very simple algorithm, is really one of the best initial guesses that you can find in modern data science. So if you assign a random forest algorithm and use that to model your initial behavior, this should serve as a starting point for all your subsequent modeling efforts. If you cannot beat a random forest, you probably have some tuning to do. Random forest has really replaced linear regression as our initial stab at a problem, the initial try where we keep trying to improve upon it.
+This is not to say that we should never use linear models. It's just as a nonlinear classifier tends to be more powerful than a linear classifier. An advantage of this is it's extremely difficult to overfit a random forest. So random forest, because of the multiple bootstrap aggregation methods, allows these trees to prevent each individual tree, even though it may be overfit, from contributing to the overall final answer.
+Because each individual tree is overfit in a specific way, the errors, in essence, cancel themselves out. And when I say errors, the overfitting errors cancel themselves out. So random forest provides a safe and advanced way to get an advanced answer that while you may be able to provide other algorithms that provide better answers, it provides you a target with which to beat. Therefore it should always be in your toolkit as something for you to start on your initial try of solving any basic data science problem.
+
+
+
+6. Bagging Exercise
+
+ 
+
+
+
+
+
+7. Case Study 4.  Introduction
+
+
+
+
+8. Case Study 4  Part I
+
+
+
+
+9. Case Study 4 Part II
+
+
+
+
+
+
+
+
+10.  Case Study 4 - Assignment 
